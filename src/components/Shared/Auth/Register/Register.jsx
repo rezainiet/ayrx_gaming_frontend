@@ -1,0 +1,74 @@
+import React from 'react';
+import { Layout, Form, Input, Button } from 'antd';
+import { UserOutlined, LockOutlined, MailOutlined, GoogleOutlined, FacebookOutlined } from '@ant-design/icons';
+import RegisterImage from './../../../../assets/images/auth_bg.png'; // Import your image
+
+const { Content } = Layout;
+
+const Register = () => {
+    const onFinish = (values) => {
+        console.log('Received values:', values);
+    };
+
+    const handleGoogleSignUp = () => {
+        // Implement Google sign-up logic here
+    };
+
+    const handleFacebookSignUp = () => {
+        // Implement Facebook sign-up logic here
+    };
+
+    return (
+        <Layout className='bg-green-100 bg-opacity-25'>
+            <Content className="flex justify-center items-center h-screen">
+                <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full flex flex-col items-center">
+                    <img src={RegisterImage} alt="Register" className="mb-6 w-40 h-40 object-cover rounded-full" />
+                    <h1 className="text-3xl font-bold mb-4 text-center">Create an Account</h1>
+                    <p className="text-gray-600 mb-6 text-center">Sign up to get started</p>
+                    <Button type="primary" className="w-full mb-4" icon={<GoogleOutlined />} size="large" onClick={handleGoogleSignUp}>
+                        Continue with Google
+                    </Button>
+                    <Button type="primary" className="w-full mb-4" icon={<FacebookOutlined />} size="large" onClick={handleFacebookSignUp}>
+                        Continue with Facebook
+                    </Button>
+                    <div className="text-center mb-4">Or sign up with email</div>
+                    <Form
+                        name="register_form"
+                        initialValues={{ remember: true }}
+                        onFinish={onFinish}
+                        className="w-full"
+                    >
+                        <Form.Item
+                            name="name"
+                            rules={[{ required: true, message: 'Please input your name!' }]}
+                        >
+                            <Input size='large' prefix={<UserOutlined />} placeholder="Name" />
+                        </Form.Item>
+                        <Form.Item
+                            name="email"
+                            rules={[{ required: true, message: 'Please input your email!' }]}
+                        >
+                            <Input size='large' prefix={<MailOutlined />} type="email" placeholder="Email" />
+                        </Form.Item>
+                        <Form.Item
+                            name="password"
+                            rules={[{ required: true, message: 'Please input your password!' }]}
+                        >
+                            <Input.Password size='large' prefix={<LockOutlined />} placeholder="Password" />
+                        </Form.Item>
+                        <Form.Item>
+                            <Button size='large' type="primary" htmlType="submit" className="w-full">
+                                Register
+                            </Button>
+                        </Form.Item>
+                    </Form>
+                    <div className="text-center">
+                        Already have an account? <a href="#">Log in</a>
+                    </div>
+                </div>
+            </Content>
+        </Layout>
+    );
+};
+
+export default Register;
