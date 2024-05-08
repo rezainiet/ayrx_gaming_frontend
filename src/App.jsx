@@ -13,7 +13,7 @@ function App() {
 
   return (
     <div className='max-w-screen-2xl mx-auto sm:px-0 md:px-3 lg:px-6 py-6 font-poppins'>
-      {/* <Navbar /> */}
+      <Navbar />
       <Routes>
         <Route exact path='/' element={<Homepage />}></Route>
         <Route exact path='/login' element={<Login />}></Route>
