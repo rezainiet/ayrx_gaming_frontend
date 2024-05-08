@@ -59,7 +59,7 @@ const Dashboard = () => {
 
     return (
         <Layout>
-            <Content className="p-8">
+            <Content className="p-1 md:p-3 lg:p-6 xl:p-8 bg-bg_color">
                 <Row gutter={[16, 16]}>
                     <Col xs={24} sm={24} md={12} lg={8} xl={6}>
                         <Card title="Earnings Overview">
@@ -75,27 +75,22 @@ const Dashboard = () => {
                         <Card title="Commission Rates">
                             <Statistic
                                 title="Current Rate"
-                                value="15%"
+                                value="10%"
                             />
                         </Card>
                     </Col>
-                    <Col xs={24} sm={24} md={12} lg={8} xl={6}>
-                        <Card title="Payment History">
-                            <Table
-                                dataSource={paymentHistoryData}
-                                columns={paymentHistoryColumns}
-                                pagination={false}
-                            />
-                        </Card>
-                    </Col>
-                    <Col xs={24} sm={24} md={12} lg={8} xl={6}>
-                        <Card title="Profile Settings">
-                            {/* Add components for managing profile settings */}
-                            <div className="text-center">
-                                <UserOutlined style={{ fontSize: '48px', color: '#1890ff' }} />
+                    <Col xs={24} sm={24} md={12} lg={8} xl={12}>
+                        <Card title="Payment History" className='mb-5'>
+                            <div style={{ overflowX: 'auto' }}>
+                                <Table
+                                    dataSource={paymentHistoryData}
+                                    columns={paymentHistoryColumns}
+                                    pagination={false}
+                                />
                             </div>
                         </Card>
                     </Col>
+
                 </Row>
                 <Row gutter={[16, 16]}>
                     <Col span={24}>
