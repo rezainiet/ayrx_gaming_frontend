@@ -32,8 +32,8 @@ const Register = () => {
         try {
             const userCredential = await createUserWithEmailAndPassword(email, password);
             const user = userCredential.user;
-            console.log('Registered User:', user.email);
-            if (user.email) {
+            console.log('Registered User:', user?.email);
+            if (user?.email) {
                 navigate('/')
             }
         } catch (error) {
@@ -86,7 +86,7 @@ const Register = () => {
                         </Form.Item>
                     </Form>
                     <div className="text-center">
-                        Already have an account? <a href="#">Log in</a>
+                        Already have an account? <a href="/login">Log in</a>
                     </div>
                 </div>
             </Content>

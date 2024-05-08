@@ -1,13 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Layout, Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined, GoogleOutlined, FacebookOutlined } from '@ant-design/icons';
 import LoginImage from './../../../../assets/images/auth_bg-2.jpg'; // Import your image
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import auth from '../../../../firebase.config';
+import { useNavigate } from 'react-router-dom';
 
 const { Content } = Layout;
 
 const Login = () => {
-    const onFinish = (values) => {
-        console.log('Received values:', values);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+
+    const [
+        signInWithEmailAndPassword,
+        user,
+        loading,
+        error,
+    ] = useSignInWithEmailAndPassword(auth);
+
+    const onFinish = async (values) => {
+        try {
+            const userCredential = await signInWithEmailAndPassword(email, password);
+            const user = userCredential.user;
+            console.log('Logged in User:', user?.email);
+            if (user?.email) {
+                navigate('/')
+            }
+        } catch (error) {
+            console.error('Error:', error.message);
+            // You can display a user-friendly error message here
+        }
     };
 
     const handleGoogleSignIn = () => {
@@ -28,7 +52,7 @@ const Login = () => {
                     <Button size='large' type="primary" className="w-full mb-4" icon={<GoogleOutlined />} onClick={handleGoogleSignIn}>
                         Continue with Google
                     </Button>
-                    <Button size='large' type="primary" className="w-full mb-4" icon={<FacebookOutlined size={'large'} />} onClick={handleFacebookSignIn}>
+                    <Button size='large' type="primary" className="w-full mb-4" icon={<FacebookOutlined />} onClick={handleFacebookSignIn}>
                         Continue with Facebook
                     </Button>
                     <div className="text-center mb-4">Or log in with email</div>
@@ -42,13 +66,13 @@ const Login = () => {
                             name="email"
                             rules={[{ required: true, message: 'Please input your email!' }]}
                         >
-                            <Input size='large' prefix={<UserOutlined />} placeholder="Email" />
+                            <Input onChange={(e) => setEmail(e.target.value)} size='large' prefix={<UserOutlined />} placeholder="Email" />
                         </Form.Item>
                         <Form.Item
                             name="password"
                             rules={[{ required: true, message: 'Please input your password!' }]}
                         >
-                            <Input.Password size='large' prefix={<LockOutlined />} placeholder="Password" />
+                            <Input.Password onChange={(e) => setPassword(e.target.value)} size='large' prefix={<LockOutlined />} placeholder="Password" />
                         </Form.Item>
                         <Form.Item>
                             <Button size='large' type="primary" htmlType="submit" className="w-full">
@@ -57,7 +81,7 @@ const Login = () => {
                         </Form.Item>
                     </Form>
                     <div className="text-center">
-                        Don't have an account? <a href="#">Sign up</a>
+                        Don't have an account? <a href="/register">Sign up</a>
                     </div>
                 </div>
             </Content>
