@@ -9,7 +9,7 @@ const ProfilePage2 = () => {
     // Sample user profile data
     const userProfile = {
         name: 'John Doe',
-        avatar: 'https://via.placeholder.com/150',
+        avatar: 'https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&fl=progressive&q=70&fm=jpg',
         bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis ex a metus bibendum varius. In hac habitasse platea dictumst.',
         reviews: [
             { id: 1, user: 'Alice', rating: 4, comment: 'Great experience!' },
