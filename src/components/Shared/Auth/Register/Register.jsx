@@ -4,19 +4,37 @@ import { UserOutlined, LockOutlined, UserSwitchOutlined } from '@ant-design/icon
 import RegisterImage from './../../../../assets/images/auth_bg.png'; // Import your image
 import auth from '../../../../firebase.config';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const { Content } = Layout;
 
 const Register = () => {
-    const [email, setEmail] = useState('');
+    const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [fullName, setFullName] = useState('');
     const [gender, setGender] = useState('');
     const navigate = useNavigate();
 
-    const onFinish = (values) => {
-        const userData = { fullName, email, password, gender };
+    const onFinish = async (values) => {
+        const userData = { fullName, userName, password, confirmPassword, gender };
         console.log('User Data:', userData);
+
+        try {
+            const res = await axios.post(`http://localhost:4000/api/v1/user/register`, userData, {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                withCredentials: true
+            });
+            if (res.data.success) {
+                toast.success(res.data.message);
+                navigate('/login')
+            }
+        } catch (error) {
+            toast.error(error.response.data.message)
+        }
         // Your registration logic here
     };
 
@@ -44,13 +62,19 @@ const Register = () => {
                             name="email"
                             rules={[{ required: true, message: 'Please input your email!' }]}
                         >
-                            <Input size='large' onChange={(e) => setEmail(e.target.value)} prefix={<UserSwitchOutlined />} type="text" placeholder="Username" />
+                            <Input size='large' onChange={(e) => setUserName(e.target.value)} prefix={<UserSwitchOutlined />} type="text" placeholder="Username" />
                         </Form.Item>
                         <Form.Item
                             name="password"
                             rules={[{ required: true, message: 'Please input your password!' }]}
                         >
                             <Input.Password onChange={(e) => setPassword(e.target.value)} size='large' prefix={<LockOutlined />} placeholder="Password" />
+                        </Form.Item>
+                        <Form.Item
+                            name="confirmPassword"
+                            rules={[{ required: true, message: 'Please input your password!' }]}
+                        >
+                            <Input.Password onChange={(e) => setConfirmPassword(e.target.value)} size='large' prefix={<LockOutlined />} placeholder="Confirm Password" />
                         </Form.Item>
                         <Form.Item
                             name="gender"

@@ -1,45 +1,41 @@
 import React, { useState } from 'react';
 import { Layout, Form, Input, Button } from 'antd';
-import { UserOutlined, LockOutlined, GoogleOutlined, FacebookOutlined } from '@ant-design/icons';
+import { LockOutlined, UserSwitchOutlined } from '@ant-design/icons';
 import LoginImage from './../../../../assets/images/auth_bg-2.jpg'; // Import your image
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import auth from '../../../../firebase.config';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setAuthUser } from '../../../../redux/userSlice';
 
 const { Content } = Layout;
 
 const Login = () => {
-    const [email, setEmail] = useState('');
+    const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
-
-    const [
-        signInWithEmailAndPassword,
-        user,
-        loading,
-        error,
-    ] = useSignInWithEmailAndPassword(auth);
+    const dispatch = useDispatch();
 
     const onFinish = async (values) => {
+        console.log('Submitted')
         try {
-            const userCredential = await signInWithEmailAndPassword(email, password);
-            const user = userCredential.user;
-            console.log('Logged in User:', user?.email);
-            if (user?.email) {
-                navigate('/')
+            const user = { userName, password };
+            const res = await axios.post(`http://localhost:4000/api/v1/user/login`, user, {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                withCredentials: true
+            });
+            if (res.data.userName) {
+                toast.success("User logged in successful.");
+                navigate('/');
+                dispatch(setAuthUser(res.data));
             }
         } catch (error) {
-            console.error('Error:', error.message);
-            // You can display a user-friendly error message here
+            toast.error(error.response.data.message)
         }
-    };
-
-    const handleGoogleSignIn = () => {
-        // Implement Google sign-in logic here
-    };
-
-    const handleFacebookSignIn = () => {
-        // Implement Facebook sign-in logic here
     };
 
     return (
@@ -49,13 +45,7 @@ const Login = () => {
                     <img src={LoginImage} alt="Login" className="mb-6 w-40 h-40 object-cover rounded-full" />
                     <h1 className="text-3xl font-bold mb-4 text-center">Welcome Back!</h1>
                     <p className="text-gray-600 mb-6 text-center">Log in to your account to continue</p>
-                    <Button size='large' type="primary" className="w-full mb-4" icon={<GoogleOutlined />} onClick={handleGoogleSignIn}>
-                        Continue with Google
-                    </Button>
-                    <Button size='large' type="primary" className="w-full mb-4" icon={<FacebookOutlined />} onClick={handleFacebookSignIn}>
-                        Continue with Facebook
-                    </Button>
-                    <div className="text-center mb-4">Or log in with email</div>
+                    <div className="text-center mb-4">Log in with email</div>
                     <Form
                         name="login_form"
                         initialValues={{ remember: true }}
@@ -66,7 +56,7 @@ const Login = () => {
                             name="email"
                             rules={[{ required: true, message: 'Please input your email!' }]}
                         >
-                            <Input onChange={(e) => setEmail(e.target.value)} size='large' prefix={<UserOutlined />} placeholder="Email" />
+                            <Input onChange={(e) => setUserName(e.target.value)} size='large' prefix={< UserSwitchOutlined />} placeholder="Username" />
                         </Form.Item>
                         <Form.Item
                             name="password"

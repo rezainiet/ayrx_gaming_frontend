@@ -23,9 +23,9 @@ function App() {
         <Route path='/register' element={<Register />}></Route>
         <Route path='/dashboard' element={<Dashboard />}></Route>
         <Route path='/profile' element={
-          <RequireAuth>
-            <ProfilePage3 />
-          </RequireAuth>
+
+          <ProfilePage3 />
+
         }></Route>
         <Route path='/chat' element={
           // <RequireAuth>

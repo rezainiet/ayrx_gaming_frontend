@@ -1,9 +1,10 @@
 import React from 'react'
+import ChatHomepage from '../../components/Chat/ChatHomepage'
 
 const Chat = () => {
     return (
-        <div>
-            <button className="btn btn-neutral">Neutral</button>
+        <div className='flex items-center justify-center'>
+            <ChatHomepage />
         </div>
     )
 }
