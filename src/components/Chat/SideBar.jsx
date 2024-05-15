@@ -1,48 +1,62 @@
-import { Divider } from 'antd'
-import React from 'react'
-import { BiSearchAlt2 } from "react-icons/bi"
-import OtherUsers from './OtherUsers'
-import { Button, message, Popconfirm } from 'antd';
-import { LogoutOutlined } from '@ant-design/icons'
+import React, { useState } from 'react';
+import { Divider, Input, Button, message, Popconfirm } from 'antd';
+import { BiSearchAlt2 } from 'react-icons/bi';
+import { LogoutOutlined } from '@ant-design/icons';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { setAuthUser, setOtherUsers, setSelectedUser } from '../../redux/userSlice';
+import { setMessages } from '../../redux/messageSlice';
+import OtherUsers from './OtherUsers';
 
 const SideBar = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-    const confirm = async (e) => {
-        console.log(e);
+    const [search, setSearch] = useState("");
+
+    const handleLogout = async () => {
         try {
             const res = await axios.get(`http://localhost:4000/api/v1/user/logout`);
             message.success('Logout successful.');
-            navigate('/login')
+            dispatch(setSelectedUser(null));
+            dispatch(setOtherUsers(null));
+            dispatch(setAuthUser(null));
+            dispatch(setMessages(null));
+            navigate('/login');
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     };
-    const cancel = (e) => {
-        console.log(e);
-        message.error('Click on No');
+
+    const handleLogoutCancel = () => {
+        message.error('Logout canceled.');
     };
 
+
+    const searchSubmitHandler = (e) => {
+        e.preventDefault();
+    }
+
     return (
-        <div className='border-r border-slate-500 p-4 flex flex-col'>
-            <form action="" className='flex items-center gap-2'>
-                <input type="text"
-                    className='input input-bordered rounded-md'
-                    placeholder='Search...'
+        <div className="border-r border-slate-500 p-4 flex flex-col">
+            <form onSubmit={searchSubmitHandler} className="flex items-center gap-2">
+                <Input
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="rounded-md"
+                    placeholder="Search..."
+                    prefix={<BiSearchAlt2 className="outline-none" />}
                 />
-                <button className='btn bg-zinc-500' type='submit'>
-                    <BiSearchAlt2 className='w-6 h-6 outline-none' />
-                </button>
+                <Button type="submit" className='btn btn-sm btn-secondary'>Search</Button>
             </form>
-            <div className="divider px-3"></div>
+            <Divider />
             <OtherUsers />
             <div>
                 <Popconfirm
                     title="Logout now"
-                    description="Are you sure want to logout?"
-                    onConfirm={confirm}
-                    onCancel={cancel}
+                    description="Are you sure you want to logout?"
+                    onConfirm={handleLogout}
+                    onCancel={handleLogoutCancel}
                     okText="Yes"
                     cancelText="No"
                 >
@@ -50,7 +64,7 @@ const SideBar = () => {
                 </Popconfirm>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default SideBar
+export default SideBar;

@@ -28,10 +28,10 @@ const Login = () => {
                 },
                 withCredentials: true
             });
-            if (res.data.userName) {
-                toast.success("User logged in successful.");
-                navigate('/');
+            if (res?.data?.userName) {
                 dispatch(setAuthUser(res.data));
+                navigate('/');
+                toast.success("User logged in successful.");
             }
         } catch (error) {
             toast.error(error.response.data.message)

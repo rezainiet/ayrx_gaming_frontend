@@ -24,6 +24,9 @@ const Navbar = () => {
                     <Menu.Item key="home" icon={<HomeOutlined />}>
                         <Link to={'/'}>Home</Link>
                     </Menu.Item>
+                    <Menu.Item key="home" icon={<HomeOutlined />}>
+                        <Link to={'/chat'}>Messages</Link>
+                    </Menu.Item>
                     <Menu.Item key="members" icon={<UsergroupAddOutlined />}>
                         Members
                     </Menu.Item>
