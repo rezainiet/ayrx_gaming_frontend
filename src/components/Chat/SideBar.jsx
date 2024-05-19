@@ -35,6 +35,8 @@ const SideBar = () => {
         message.error('Logout canceled.');
     };
 
+
+    // search bar
     const onFinish = () => {
         const searchedUser = otherUsers?.find((user) => user?.fullName?.toLowerCase()?.includes(search.toLowerCase()))
         if (searchedUser) {
