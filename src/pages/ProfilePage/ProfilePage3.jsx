@@ -5,6 +5,7 @@ import ProfileNav from './ProfileNav/ProfileNav';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import EditProfile from './Modals/EditProfile/EditProfile';
+import RecentPosts from './RecentPosts/RecentPosts';
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
@@ -127,27 +128,16 @@ const Profile = () => {
                             {<ProfileNav />}
                         </Card>
                         <Divider />
+
+                        {/* recent posts */}
                         <Title level={3} className='font-poppins'>Recent Posts</Title>
-                        <List
-                            itemLayout="horizontal"
-                            dataSource={posts}
-                            renderItem={item => (
-                                <List.Item>
-                                    <List.Item.Meta
-                                        title={<a href="#">{item.content}</a>}
-                                        description={
-                                            <div>
-                                                <HeartOutlined style={{ marginRight: '8px' }} />
-                                                {item.likes} Likes
-                                                <Divider type="vertical" />
-                                                <Text className='font-poppins'>{item.comments} Comments</Text>
-                                            </div>
-                                        }
-                                    />
-                                </List.Item>
-                            )}
+                        <RecentPosts
+                            posts={posts}
                         />
                     </Col>
+
+
+
                 </Row>
             </Content>
             <EditProfile
