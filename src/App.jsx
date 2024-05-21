@@ -17,6 +17,7 @@ import io from 'socket.io-client';
 import { setOnlineUsers } from './redux/userSlice';
 import { setSocket } from './redux/socketSlice';
 
+
 function App() {
   const { authUser } = useSelector(store => store.user);
   const dispatch = useDispatch();
@@ -71,8 +72,12 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/dashboard' element={<Dashboard />} />
-        <Route path='/profile' element={<ProfilePage3 />} />
-        <Route path='/chat' element={<Chat />} />
+        <Route path='/profile' element={<RequireAuth>
+          <ProfilePage3 />
+        </RequireAuth>} />
+        <Route path='/chat' element={<RequireAuth>
+          <Chat />
+        </RequireAuth>} />
         <Route exact path='/profile2' element={<ProfilePage2 />} />
       </Routes>
     </div>

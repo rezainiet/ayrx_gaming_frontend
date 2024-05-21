@@ -4,11 +4,13 @@ import { HomeOutlined, UsergroupAddOutlined, InfoCircleOutlined, MailOutlined, L
 import { Link } from 'react-router-dom';
 import { useAuthState, useSignOut } from 'react-firebase-hooks/auth';
 import auth from '../../../firebase.config';
+import { useSelector } from 'react-redux';
 
 const { Header } = Layout;
 
 const Navbar = () => {
-    const [user, loading, error] = useAuthState(auth);
+    // const [user, loading, error] = useAuthState(auth);
+    const { authUser } = useSelector(store => store.user);
     const [signOut] = useSignOut(auth);
     const [current, setCurrent] = useState('home');
 
@@ -36,7 +38,7 @@ const Navbar = () => {
                     <Menu.Item key="contact" icon={<MailOutlined />}>
                         Contact Us
                     </Menu.Item>
-                    {user ? (
+                    {authUser ? (
                         <Menu.Item key="logout" onClick={async () => {
                             const success = await signOut();
                             if (success) {
@@ -55,7 +57,7 @@ const Navbar = () => {
                             </Menu.Item>
                         </>
                     )}
-                    {user && (
+                    {authUser && (
                         <Menu.Item key="profile" icon={<UserOutlined />}>
                             <Link to={'/profile'}>Profile</Link>
                         </Menu.Item>

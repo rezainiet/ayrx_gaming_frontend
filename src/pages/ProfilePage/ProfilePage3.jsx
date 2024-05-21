@@ -1,15 +1,58 @@
-import React, { useState } from 'react';
-import { Layout, Row, Col, Avatar, Typography, Divider, Button, Card, List, Tag, Menu } from 'antd';
-import { UserOutlined, EditOutlined, HeartOutlined, SketchCircleFilled, ScheduleFilled } from '@ant-design/icons';
-import Sider from 'antd/es/layout/Sider';
-import Marquee from "react-fast-marquee";
+import React, { useEffect, useState } from 'react';
+import { Layout, Row, Col, Avatar, Typography, Divider, Button, Card, List, Tag } from 'antd';
+import { EditOutlined, HeartOutlined, ScheduleFilled, SketchCircleFilled } from '@ant-design/icons';
 import ProfileNav from './ProfileNav/ProfileNav';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+import EditProfile from './Modals/EditProfile/EditProfile';
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
 
 const Profile = () => {
-    const interests = ['Programming', 'Reading', 'Hiking', 'Cooking', 'Traveling'];
+    const { authUser } = useSelector(store => store.user);
+    const [user, setUser] = useState({});
+    const [loading, setLoading] = useState(false);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+    useEffect(() => {
+        setLoading(true);
+        const fetchUserData = async () => {
+            try {
+                axios.defaults.withCredentials = true;
+                const res = await axios.get('http://localhost:4000/api/v1/user/getUserDetails');
+                setUser(res.data.user); // Assuming the user data is in res.data.user
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+                setLoading(false);
+            }
+        };
+
+        fetchUserData();
+    }, []);
+
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleOk = async (updatedUser) => {
+        try {
+            const res = await axios.put('http://localhost:4000/api/v1/user/updateUserDetails', updatedUser);
+            setUser(res.data.user); // Assuming the updated user data is in res.data.user
+            setIsModalVisible(false);
+        } catch (error) {
+            console.error("Error updating user data:", error);
+        }
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
+
+    if (loading) {
+        return <h1>Loading...</h1>;
+    }
 
     const posts = [
         {
@@ -40,21 +83,21 @@ const Profile = () => {
                         <Card>
                             <Row gutter={[16, 16]} align="middle">
                                 <Col>
-                                    <Avatar size={120} icon={<UserOutlined />} />
+                                    <Avatar size={120} src={authUser?.profilePhoto} />
                                 </Col>
                                 <Col>
-                                    <Title level={2} className='font-poppins'>John Doe</Title>
-                                    <Text type="secondary" className='font-poppins'>Software Developer</Text>
+                                    <Title level={2} className='font-poppins'>{authUser?.fullName || "userName"}</Title>
+                                    <Text type="secondary" className='font-poppins'>{user?.userTitle}</Text>
                                 </Col>
                                 <Col className="ml-auto">
-                                    <Button icon={<EditOutlined />}>Edit Profile</Button>
+                                    <Button icon={<EditOutlined />} onClick={showModal}>Edit Profile</Button>
                                 </Col>
                             </Row>
                             <Divider />
                             <Row gutter={[16, 16]}>
                                 <Col xs={24} sm={12}>
                                     <Card title='About Me' className='mb-5'>
-                                        <Text className='font-poppins'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel sapien eros.</Text>
+                                        <Text className='font-poppins'>{user?.aboutUser}</Text>
                                     </Card>
                                     <Card title="Next Step...">
                                         <div style={{ marginBottom: '16px' }}>
@@ -73,7 +116,7 @@ const Profile = () => {
                                     <Card>
                                         <Title level={4} className='font-poppins'>Interests</Title>
                                         <div>
-                                            {interests.map(interest => (
+                                            {user?.interests?.map(interest => (
                                                 <Tag key={interest} color="geekblue">{interest}</Tag>
                                             ))}
                                         </div>
@@ -82,7 +125,6 @@ const Profile = () => {
                             </Row>
                             <Divider />
                             {<ProfileNav />}
-
                         </Card>
                         <Divider />
                         <Title level={3} className='font-poppins'>Recent Posts</Title>
@@ -108,6 +150,12 @@ const Profile = () => {
                     </Col>
                 </Row>
             </Content>
+            <EditProfile
+                isVisible={isModalVisible}
+                handleOk={handleOk}
+                handleCancel={handleCancel}
+                user={user}
+            />
         </Layout>
     );
 };

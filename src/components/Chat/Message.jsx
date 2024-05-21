@@ -19,7 +19,7 @@ const Message = ({ message }) => {
                 {/* Obi-Wan Kenobi */}
                 <time className="text-xs opacity-50">12:45</time>
             </div>
-            <div className="chat-bubble">
+            <div className={`chat-bubble ${authUser?._id === message?.senderId ? 'chat-bubble-accent text-white' : 'chat-start'}`}>
                 {/* {message} */}
                 {message?.message}
             </div>

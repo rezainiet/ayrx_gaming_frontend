@@ -13,7 +13,7 @@ const OtherUser = ({ user }) => {
     return (
         <>
             <div onClick={() => setSelectedUserHandler(user)} className={`${selectedUser?._id === user?._id ? 'bg-sky-300 text-white' : 'bg-zinc-200'} flex gap-2 items-center hover:bg-sky-300 rounded-sm p-2 cursor-pointer hover:text-white`}>
-                <div className={`avatar ${isOnline ? 'online' : ''}`}>
+                <div className={`avatar ${isOnline ? 'online' : 'offline'}`}>
                     <div className='w-12 rounded-full'>
                         <img src={user?.profilePhoto} alt="user avatar" />
                     </div>
