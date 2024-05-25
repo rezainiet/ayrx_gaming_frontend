@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Layout, Row, Col, Avatar, Typography, Divider, Button, Card, List, Tag } from 'antd';
-import { EditOutlined, HeartOutlined, ScheduleFilled, SketchCircleFilled } from '@ant-design/icons';
+import { Layout, Row, Col, Avatar, Typography, Divider, Button, Card, List, Tag, Space } from 'antd';
+import { EditOutlined, UserAddOutlined, MessageOutlined, ScheduleFilled, SketchCircleFilled, StopOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import ProfileNav from './ProfileNav/ProfileNav';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import EditProfile from './Modals/EditProfile/EditProfile';
 import RecentPosts from './RecentPosts/RecentPosts';
+import NextSteps from './NextSteps/NextSteps';
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
@@ -15,6 +16,7 @@ const Profile = () => {
     const [user, setUser] = useState({});
     const [loading, setLoading] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
+
 
     useEffect(() => {
         setLoading(true);
@@ -76,42 +78,46 @@ const Profile = () => {
         },
     ];
 
+    console.log(user)
     return (
         <Layout>
             <Content className="xs:p-0 sm:p-0 md:p-2 lg:p-5 xl:p-8 bg-bg_color">
                 <Row justify="center">
                     <Col xs={24} sm={20} lg={16}>
                         <Card>
-                            <Row gutter={[16, 16]} align="middle">
+
+                            {/* Profile header */}
+                            <Row gutter={[16, 16]} align="middle" className="p-4 bg-white shadow rounded-md">
                                 <Col>
                                     <Avatar size={120} src={authUser?.profilePhoto} />
                                 </Col>
                                 <Col>
-                                    <Title level={2} className='font-poppins'>{authUser?.fullName || "userName"}</Title>
-                                    <Text type="secondary" className='font-poppins'>{user?.userTitle}</Text>
+                                    <Title level={2} className='font-poppins'>{user?.fullName || "userName"}</Title>
+                                    <Text type="secondary" className='font-poppins'>{user?.userTitle || "New User"}</Text>
                                 </Col>
                                 <Col className="ml-auto">
-                                    <Button icon={<EditOutlined />} onClick={showModal}>Edit Profile</Button>
+                                    <Space>
+                                        <Button icon={<UserAddOutlined />} type="primary" className="font-poppins">Add Friend</Button>
+                                        <Button icon={<MessageOutlined />} className="font-poppins">Message</Button>
+                                        {/* <Button icon={<StopOutlined />} danger className="font-poppins">Block</Button>
+                                        <Button icon={<CloseCircleOutlined />} className="font-poppins">Cancel Request</Button> */}
+                                        <Button icon={<EditOutlined />} onClick={showModal} className="font-poppins">Edit Profile</Button>
+                                    </Space>
                                 </Col>
                             </Row>
+
+
                             <Divider />
                             <Row gutter={[16, 16]}>
                                 <Col xs={24} sm={12}>
                                     <Card title='About Me' className='mb-5'>
-                                        <Text className='font-poppins'>{user?.aboutUser}</Text>
+                                        <Text className='font-poppins'>{user?.aboutUser || "Hey, I'm New User."}</Text>
                                     </Card>
-                                    <Card title="Next Step...">
-                                        <div style={{ marginBottom: '16px' }}>
-                                            <Title level={5} className='font-poppins'>Ready to schedule a session?</Title>
-                                            <Text className='font-poppins'>Book your appointment now to get started on your journey towards success.</Text>
-                                        </div>
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
-                                            <Button size='medium' type="primary" icon={<ScheduleFilled />}>
-                                                Booking
-                                            </Button>
-                                            <Button size='medium' type="primary" icon={<SketchCircleFilled />}>Send Tips</Button>
-                                        </div>
-                                    </Card>
+
+                                    {/* Next Steps */}
+                                    <NextSteps />
+
+
                                 </Col>
                                 <Col xs={24} sm={12}>
                                     <Card>
@@ -131,9 +137,7 @@ const Profile = () => {
 
                         {/* recent posts */}
                         <Title level={3} className='font-poppins'>Recent Posts</Title>
-                        <RecentPosts
-                            posts={posts}
-                        />
+                        <RecentPosts />
                     </Col>
 
 

@@ -3,17 +3,18 @@ import { HeartOutlined, CommentOutlined, ShareAltOutlined } from "@ant-design/ic
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import RecentPost from './RecentPost';
+import SinglePost from './SinglePost';
 
 const { Text } = Typography;
 
-const RecentPosts = () => {
+const PostsSection = () => {
     const { authUser } = useSelector(store => store.user);
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
         const getUsersPosts = async () => {
             try {
+                axios.defaults.withCredentials = true;
                 const res = await axios.get(`http://localhost:4000/api/v1/posts/getPosts/${authUser?._id}`);
                 console.log(res.data);
                 setPosts(res.data.posts);
@@ -26,6 +27,7 @@ const RecentPosts = () => {
         }
     }, [authUser?._id]);
 
+    console.log(posts)
 
     return (
         <div>
@@ -34,7 +36,7 @@ const RecentPosts = () => {
                 dataSource={posts}
                 renderItem={item => (
                     <List.Item key={item._id}>
-                        <RecentPost item={item} authUser={authUser} />
+                        <SinglePost item={item} authUser={authUser} />
                     </List.Item>
                 )}
             />
@@ -42,4 +44,4 @@ const RecentPosts = () => {
     );
 };
 
-export default RecentPosts;
+export default PostsSection;

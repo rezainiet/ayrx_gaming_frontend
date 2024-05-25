@@ -16,6 +16,9 @@ import { useEffect } from 'react';
 import io from 'socket.io-client';
 import { setOnlineUsers } from './redux/userSlice';
 import { setSocket } from './redux/socketSlice';
+import GamePage from './pages/GamePage/GamePage';
+import GameDetails from './pages/GamePage/GameDetails/GameDetails';
+import GameGroup from './pages/GamePage/GameDetails/RelatedGroups/GameGroup/GameGroup';
 
 
 function App() {
@@ -67,19 +70,24 @@ function App() {
   return (
     <div className='max-w-screen-2xl mx-auto sm:px-0 md:px-3 lg:px-6 py-6 font-poppins bg-bg_color'>
       <Navbar />
-      <Routes>
-        <Route exact path='/' element={<Homepage />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/dashboard' element={<Dashboard />} />
-        <Route path='/profile' element={<RequireAuth>
-          <ProfilePage3 />
-        </RequireAuth>} />
-        <Route path='/chat' element={<RequireAuth>
-          <Chat />
-        </RequireAuth>} />
-        <Route exact path='/profile2' element={<ProfilePage2 />} />
-      </Routes>
+      <div className=''>
+        <Routes>
+          <Route exact path='/' element={<Homepage />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/games' element={<GamePage />} />
+          <Route path='/game/:id' element={<GameDetails />} />
+          <Route path='/game/groups/:groupId' element={<GameGroup />} />
+          <Route path='/profile' element={<RequireAuth>
+            <ProfilePage3 />
+          </RequireAuth>} />
+          <Route path='/chat' element={<RequireAuth>
+            <Chat />
+          </RequireAuth>} />
+          <Route exact path='/profile2' element={<ProfilePage2 />} />
+        </Routes>
+      </div>
     </div>
   );
 }

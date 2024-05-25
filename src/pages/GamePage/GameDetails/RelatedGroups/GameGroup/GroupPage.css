@@ -1,0 +1,36 @@
+/* General styles for the group info section */
+.group-info {
+  padding: 20px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  align-items: center;
+}
+
+.group-details {
+  margin-left: 20px;
+}
+
+.group-info img {
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+}
+
+/* Styles for the posts and comments */
+.post {
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+}
+
+.group-posts {
+  padding: 20px;
+}
+
+.new-post {
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+}
