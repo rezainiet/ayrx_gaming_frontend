@@ -33,6 +33,8 @@ const GameDetails = () => {
         getGame(id);
     }, [id]);
 
+    console.log(game)
+
     const handleCreateGroup = (values) => {
         console.log('New Group:', values);
         form.resetFields();
@@ -55,6 +57,8 @@ const GameDetails = () => {
             </div>
         );
     }
+
+
 
     return (
         <div className="max-w-4xl mx-auto p-4">
@@ -89,7 +93,7 @@ const GameDetails = () => {
                         </Form>
                     </div>
 
-                    <RelatedGroups game={game} />
+                    <RelatedGroups relatedGroups={game?.relatedGroups} />
                 </>
             )}
         </div>
