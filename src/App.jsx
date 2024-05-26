@@ -78,7 +78,9 @@ function App() {
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/games' element={<GamePage />} />
           <Route path='/game/:id' element={<GameDetails />} />
-          <Route path='/game/groups/:groupId' element={<GameGroup />} />
+          <Route path='/game/groups/:groupId' element={<RequireAuth>
+            <GameGroup />
+          </RequireAuth>} />
           <Route path='/profile' element={<RequireAuth>
             <ProfilePage3 />
           </RequireAuth>} />

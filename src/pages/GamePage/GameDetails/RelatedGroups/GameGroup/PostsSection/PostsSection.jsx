@@ -7,26 +7,8 @@ import SinglePost from './SinglePost';
 
 const { Text } = Typography;
 
-const PostsSection = () => {
+const PostsSection = ({ posts }) => {
     const { authUser } = useSelector(store => store.user);
-    const [posts, setPosts] = useState([]);
-
-    useEffect(() => {
-        const getUsersPosts = async () => {
-            try {
-                axios.defaults.withCredentials = true;
-                const res = await axios.get(`http://localhost:4000/api/v1/posts/getPosts/${authUser?._id}`);
-                console.log(res.data);
-                setPosts(res.data.posts);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        if (authUser?._id) {
-            getUsersPosts();
-        }
-    }, [authUser?._id]);
-
     console.log(posts)
 
     return (

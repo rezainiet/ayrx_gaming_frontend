@@ -52,7 +52,7 @@ const RelatedGroups = ({ relatedGroups }) => {
                             </div>
                             <div className="ml-auto">
                                 <Button type="link">
-                                    <Link to={`/groups/${item.group?._id}`}>View</Link>
+                                    <Link to={`/game/groups/${item.group?._id}`}>View</Link>
                                 </Button>
                             </div>
                         </List.Item>

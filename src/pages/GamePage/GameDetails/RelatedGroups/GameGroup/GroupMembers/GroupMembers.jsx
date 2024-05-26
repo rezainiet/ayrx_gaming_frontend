@@ -1,31 +1,22 @@
 import React from 'react'
 
-const GroupMembers = ({ Title }) => {
+const GroupMembers = ({ Title, group }) => {
+    console.log(group)
     return (
         <div>
             {/* Members */}
             <Title level={4} className="font-poppins mt-8 ml-5">Group Members!</Title>
             <div className="avatar-group -space-x-6 rtl:space-x-reverse ml-5">
-                <div className="avatar">
-                    <div className="w-12">
-                        <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-                    </div>
-                </div>
-                <div className="avatar">
-                    <div className="w-12">
-                        <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-                    </div>
-                </div>
-                <div className="avatar">
-                    <div className="w-12">
-                        <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-                    </div>
-                </div>
-                <div className="avatar">
-                    <div className="w-12">
-                        <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-                    </div>
-                </div>
+                {
+                    group && group?.members?.length > 0 && group?.members?.map(member => (
+                        <div className="avatar" key={member._id}> {/* Ensure a unique key */}
+                            <div className="w-12">
+                                {console.log(member)}
+                                <img src={member.profilePhoto || "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"} /> {/* Use member's profilePhoto if available */}
+                            </div>
+                        </div>
+                    ))
+                }
             </div>
             {/* <List
                 bordered

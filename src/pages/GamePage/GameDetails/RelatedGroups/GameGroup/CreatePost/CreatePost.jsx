@@ -23,6 +23,6 @@ const CreatePost = ({ joined, Title, Paragraph, TextArea, Button, newPost, setNe
             )}
         </>
     )
-}
+};
 
 export default CreatePost
