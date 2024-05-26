@@ -40,9 +40,9 @@ const NextSteps = () => {
     };
 
     return (
-        <Card title="Next Steps">
+        <Card title="Recent Transactions">
             <div style={{ marginBottom: '16px' }}>
-                <Title level={5} className='font-poppins'>Ready to schedule a session?</Title>
+                <Title level={5} className='font-poppins'>Transactions</Title>
                 <Text className='font-poppins'>Secure your appointment now and start your journey towards success.</Text>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

@@ -19,6 +19,7 @@ import { setSocket } from './redux/socketSlice';
 import GamePage from './pages/GamePage/GamePage';
 import GameDetails from './pages/GamePage/GameDetails/GameDetails';
 import GameGroup from './pages/GamePage/GameDetails/RelatedGroups/GameGroup/GameGroup';
+import UserProfile from './pages/UserProfile/UserProfile';
 
 
 function App() {
@@ -79,7 +80,7 @@ function App() {
           <Route path='/games' element={<GamePage />} />
           <Route path='/game/:id' element={<GameDetails />} />
           <Route path='/profile/:userId' element={<RequireAuth>
-            <ProfilePage3 />
+            <UserProfile />
           </RequireAuth>} />
           <Route path='/game/groups/:groupId' element={<RequireAuth>
             <GameGroup />

@@ -1,0 +1,28 @@
+/* SendTips.css */
+
+/* Style for the Send Tips button */
+.send-tips-button {
+    background-color: #1890ff;
+    /* Primary color */
+    border-color: #1890ff;
+}
+
+/* Style for the Stripe card element */
+.stripe-card-element {
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    padding: 10px;
+    height: 40px;
+    width: 100%;
+    margin-top: 5px;
+}
+
+/* Style for the tip amount input */
+.tip-amount-input {
+    width: 100%;
+}
+
+/* Style for the tip notes input */
+.tip-notes-input {
+    width: 100%;
+}
