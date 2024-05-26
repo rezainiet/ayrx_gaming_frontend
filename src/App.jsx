@@ -38,8 +38,8 @@ function App() {
       });
 
       newSocket.on('connect', () => {
-        console.log(`Connected with socket ID: ${newSocket.id}`);
-        console.log(newSocket)
+        // console.log(`Connected with socket ID: ${newSocket.id}`);
+        // console.log(newSocket)
         dispatch(setSocket(newSocket));
       });
 
@@ -78,6 +78,9 @@ function App() {
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/games' element={<GamePage />} />
           <Route path='/game/:id' element={<GameDetails />} />
+          <Route path='/profile/:userId' element={<RequireAuth>
+            <ProfilePage3 />
+          </RequireAuth>} />
           <Route path='/game/groups/:groupId' element={<RequireAuth>
             <GameGroup />
           </RequireAuth>} />

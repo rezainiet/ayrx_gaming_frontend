@@ -19,7 +19,7 @@ const Register = () => {
 
     const onFinish = async (values) => {
         const userData = { fullName, userName, password, confirmPassword, gender };
-        console.log('User Data:', userData);
+        // console.log('User Data:', userData);
 
         try {
             const res = await axios.post(`http://localhost:4000/api/v1/user/register`, userData, {

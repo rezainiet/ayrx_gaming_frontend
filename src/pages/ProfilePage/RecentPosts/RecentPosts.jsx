@@ -15,10 +15,10 @@ const RecentPosts = () => {
         const getUsersPosts = async () => {
             try {
                 const res = await axios.get(`http://localhost:4000/api/v1/posts/getPosts/${authUser?._id}`);
-                console.log(res.data);
+                // console.log(res.data);
                 setPosts(res.data.posts);
             } catch (error) {
-                console.log(error);
+                // console.log(error);
             }
         };
         if (authUser?._id) {

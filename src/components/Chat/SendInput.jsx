@@ -21,7 +21,7 @@ const SendInput = () => {
             });
 
 
-            console.log(res.data.newMessage);
+            // console.log(res.data.newMessage);
             // console.log(...messages);
             if (!messages) {
                 dispatch(setMessages([res?.data?.newMessage]));
@@ -30,9 +30,9 @@ const SendInput = () => {
                 dispatch(setMessages([...messages, res?.data?.newMessage]));
 
             }
-            console.log(messages)
+            // console.log(messages)
         } catch (error) {
-            console.log(error)
+            // console.log(error)
         }
         setMessage('');
     };

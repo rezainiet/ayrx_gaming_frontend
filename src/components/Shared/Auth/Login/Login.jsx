@@ -19,7 +19,7 @@ const Login = () => {
     const dispatch = useDispatch();
 
     const onFinish = async (values) => {
-        console.log('Submitted')
+        // console.log('Submitted')
         try {
             const user = { userName, password };
             const res = await axios.post(`http://localhost:4000/api/v1/user/login`, user, {

@@ -8,7 +8,7 @@ const { Search } = Input;
 const RelatedGroups = ({ relatedGroups }) => {
     const [filteredGroups, setFilteredGroups] = useState(relatedGroups);
     const [searchTerm, setSearchTerm] = useState('');
-    console.log(relatedGroups)
+    // console.log(relatedGroups)
 
     const handleSearch = (term) => {
         setSearchTerm(term);

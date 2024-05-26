@@ -1,7 +1,7 @@
 import React from 'react'
 
 const GroupMembers = ({ Title, group }) => {
-    console.log(group)
+    // console.log(group)
     return (
         <div>
             {/* Members */}

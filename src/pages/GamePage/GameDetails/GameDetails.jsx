@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Typography, Rate, Tag, Button, Form, Input, Skeleton, Alert } from 'antd';
 import RelatedGroups from './RelatedGroups/RelatedGroups';
 import axios from 'axios';
+import CreateGameGroup from './CreateGameGroup/CreateGameGroup';
 
 const { Title, Text } = Typography;
 
@@ -11,7 +12,6 @@ const GameDetails = () => {
     const [game, setGame] = useState(null);
     const [loading, setLoading] = useState(true);
     const [notFound, setNotFound] = useState(false);
-    const [form] = Form.useForm();
 
     useEffect(() => {
         const getGame = async (id) => {
@@ -32,13 +32,6 @@ const GameDetails = () => {
         };
         getGame(id);
     }, [id]);
-
-    console.log(game)
-
-    const handleCreateGroup = (values) => {
-        console.log('New Group:', values);
-        form.resetFields();
-    };
 
     if (loading) {
         return <Skeleton active />;
@@ -72,28 +65,11 @@ const GameDetails = () => {
                     </div>
                     <Text className="font-poppins">{game.description}</Text>
 
-                    <div className="mt-8">
-                        <Title level={4} className="font-poppins">Create a New Group</Title>
-                        <Form
-                            form={form}
-                            layout="vertical"
-                            onFinish={handleCreateGroup}
-                            className="font-poppins"
-                        >
-                            <Form.Item
-                                name="groupName"
-                                label="Group Name"
-                                rules={[{ required: true, message: 'Please enter a group name' }]}
-                            >
-                                <Input placeholder="Enter group name" />
-                            </Form.Item>
-                            <Form.Item>
-                                <Button type="primary" htmlType="submit">Create Group</Button>
-                            </Form.Item>
-                        </Form>
-                    </div>
-
                     <RelatedGroups relatedGroups={game?.relatedGroups} />
+
+                    <CreateGameGroup
+                        gameId={id}
+                    />
                 </>
             )}
         </div>

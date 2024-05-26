@@ -69,7 +69,7 @@ const HomePage = () => {
 
     // Function to handle post submission
     const handlePostSubmit = (values) => {
-        console.log('Submitted:', values);
+        // console.log('Submitted:', values);
         // Add logic to submit post
     };
 

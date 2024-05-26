@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Layout, Row, Col, Avatar, Typography, Divider, Button, Card, List, Tag, Space } from 'antd';
-import { EditOutlined, UserAddOutlined, MessageOutlined, ScheduleFilled, SketchCircleFilled, StopOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import { useEffect, useState } from 'react';
+import { Layout, Row, Col, Avatar, Typography, Divider, Button, Card, Tag, Space } from 'antd';
+import { EditOutlined, UserAddOutlined, MessageOutlined } from '@ant-design/icons';
 import ProfileNav from './ProfileNav/ProfileNav';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
@@ -57,28 +57,7 @@ const Profile = () => {
         return <h1>Loading...</h1>;
     }
 
-    const posts = [
-        {
-            id: 1,
-            content: 'Just finished a great hiking trip in the mountains!',
-            likes: 56,
-            comments: 12,
-        },
-        {
-            id: 2,
-            content: 'Trying out a new recipe tonight!',
-            likes: 34,
-            comments: 8,
-        },
-        {
-            id: 3,
-            content: 'Excited for my upcoming trip to Europe!',
-            likes: 78,
-            comments: 23,
-        },
-    ];
-
-    console.log(user)
+    // console.log(user)
     return (
         <Layout>
             <Content className="xs:p-0 sm:p-0 md:p-2 lg:p-5 xl:p-8 bg-bg_color">

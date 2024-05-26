@@ -11,7 +11,7 @@ const useGetOtherUsers = () => {
                 const res = await axios.get(`http://localhost:4000/api/v1/user`);
                 dispatch(setOtherUsers(res.data))
             } catch (error) {
-                console.log(error)
+                // console.log(error)
             }
         }
         fetchOtherUsers();

@@ -14,7 +14,7 @@ const Messages = () => {
     // or return a loading spinner, message, etc.
     // return null; 
     // }
-    console.log(messages);
+    // console.log(messages);
     return (
         <div className='px-4 flex-1 overflow-auto'>
             {messages && messages?.map(message => (

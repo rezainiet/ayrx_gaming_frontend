@@ -9,13 +9,15 @@ const { Text } = Typography;
 
 const PostsSection = ({ posts }) => {
     const { authUser } = useSelector(store => store.user);
-    console.log(posts)
+
+    // Reverse the order of posts to display the newest first
+    const reversedPosts = [...posts].reverse();
 
     return (
         <div>
             <List
                 itemLayout="vertical"
-                dataSource={posts}
+                dataSource={reversedPosts} // Use reversedPosts here
                 renderItem={item => (
                     <List.Item key={item._id}>
                         <SinglePost item={item} authUser={authUser} />

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 const Message = ({ message }) => {
     const scroll = useRef();
     const { authUser, selectedUser } = useSelector(store => store.user);
-    console.log(authUser)
+    // console.log(authUser)
     useEffect(() => {
         scroll.current?.scrollIntoView({ behavior: "smooth" })
     }, []);

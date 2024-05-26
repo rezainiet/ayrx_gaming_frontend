@@ -35,7 +35,7 @@ const RecentPost = ({ item, authUser }) => {
                 userId: authUser?._id,
                 text: mainComment
             });
-            console.log("Main comment posted:", response.data);
+            // console.log("Main comment posted:", response.data);
             // Append the new comment to the existing comments state
             setComments([...comments, response.data.comments.slice(-1)[0]]);
             // Clear the input field after submission

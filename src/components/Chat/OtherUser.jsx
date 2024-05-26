@@ -7,7 +7,7 @@ const OtherUser = ({ user }) => {
     const { selectedUser, onlineUsers } = useSelector(store => store.user);
     const isOnline = onlineUsers?.includes(user._id);
     const setSelectedUserHandler = (user) => {
-        console.log(user);
+        // console.log(user);
         dispatch(setSelectedUser(user))
     };
     return (

@@ -23,7 +23,7 @@ const SinglePost = ({ item, authUser }) => {
     useEffect(() => {
         // Retrieve the like status from local storage
         const likedStatus = localStorage.getItem(`liked_${item._id}`);
-        console.log(likedStatus)
+        // console.log(likedStatus)
         if (likedStatus === 'true') {
             setIsLiked(likedStatus === "false");
         }
@@ -45,7 +45,7 @@ const SinglePost = ({ item, authUser }) => {
                 userId: authUser?._id,
                 text: replyContent
             });
-            console.log("Reply posted:", response.data);
+            // console.log("Reply posted:", response.data);
             const updatedComments = comments.map(comment =>
                 comment._id === commentId ? { ...comment, replies: [...(comment.replies || []), response.data.reply] } : comment
             );
@@ -65,17 +65,17 @@ const SinglePost = ({ item, authUser }) => {
                 content: mainComment,
                 postId: postId
             });
-            console.log(response)
+            // console.log(response)
 
             const newComment = response.data;
-            console.log(newComment);
+            // console.log(newComment);
             newComment.author = {
                 _id: authUser?._id,
                 profilePhoto: authUser?.profilePhoto,
                 fullName: authUser?.fullName
             };
 
-            console.log("Main comment posted:", response.data);
+            // console.log("Main comment posted:", response.data);
             setComments([...comments, { ...newComment, replies: [] }]);
             setMainComment("");
         } catch (error) {
@@ -103,7 +103,7 @@ const SinglePost = ({ item, authUser }) => {
             const response = await axios.post(`http://localhost:4000/api/v1/posts/${postId}/like`, {
                 userId: authUser?._id
             });
-            console.log("Post liked:", response.data);
+            // console.log("Post liked:", response.data);
         } catch (error) {
             console.error("Error liking post:", error);
         }

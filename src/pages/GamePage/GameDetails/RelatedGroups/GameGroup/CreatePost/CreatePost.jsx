@@ -1,9 +1,11 @@
-import React from 'react'
+// CreatePost.js
+
+import React from 'react';
 
 const CreatePost = ({ joined, Title, Paragraph, TextArea, Button, newPost, setNewPost, handlePost }) => {
     return (
         <>
-            {!joined && (
+            {joined && (
                 <div className="mb-6 p-4 bg-white shadow rounded-md">
                     <Title level={4} className="font-poppins mb-2">Create a New Post</Title>
                     <Paragraph className="font-poppins text-sm text-gray-600 mb-4">
@@ -22,7 +24,7 @@ const CreatePost = ({ joined, Title, Paragraph, TextArea, Button, newPost, setNe
                 </div>
             )}
         </>
-    )
+    );
 };
 
-export default CreatePost
+export default CreatePost;
