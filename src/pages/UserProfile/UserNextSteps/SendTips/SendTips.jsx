@@ -5,7 +5,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import './SendTips.css'; // Import your custom CSS for styling
 
-const stripePromise = loadStripe('pk_test_51PKmGjDYUg5iGXsDLr9aKfeZx6aGJ7br9MS4t3TiBTmribrZfhe3eRR4dv1p0pbOV64OJ2c5ydU7xW69mwF7kXNr00u4kFdhdP'); // Replace with your actual Stripe publishable key
+const stripePromise = loadStripe('pk_test_51P8kFfKe15T6nSoizfFRXY9fVOXli5WYaW5LLj5AdpcGvVHS51qsPH8b29pfKlsWlSo5LNJNdqSbFK6JFdNvsvV800lu68rXOQ'); // Replace with your actual Stripe publishable key
 
 const { Option } = Select;
 
@@ -13,6 +13,7 @@ const SendTips = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [tipAmount, setTipAmount] = useState(null);
     const [tipNotes, setTipNotes] = useState('');
+    const [country, setCountry] = useState('');
     const stripe = useStripe();
     const elements = useElements();
 
@@ -30,6 +31,16 @@ const SendTips = () => {
         const { error, paymentMethod } = await stripe.createPaymentMethod({
             type: 'card',
             card: cardElement,
+            billing_details: {
+                name: document.querySelector('input[placeholder="Enter your full name"]').value,
+                email: document.querySelector('input[placeholder="Enter your email"]').value,
+                address: {
+                    line1: document.querySelector('input[placeholder="Enter your address"]').value,
+                    city: document.querySelector('input[placeholder="Enter your city"]').value,
+                    country: country, // Use the 2-character country code
+                    postal_code: document.querySelector('input[placeholder="Enter your postal code"]').value,
+                },
+            },
         });
 
         if (error) {
@@ -37,10 +48,25 @@ const SendTips = () => {
             message.error(error.message);
         } else {
             console.log('[PaymentMethod]', paymentMethod);
-            message.success('Your tips have been sent.');
-            console.log("Tip Amount:", tipAmount);
-            console.log("Tip Notes:", tipNotes);
-            setIsModalVisible(false);
+
+            // Here, you would send the paymentMethod.id and the tipAmount to your server
+            const response = await fetch('/your-server-endpoint', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    paymentMethodId: paymentMethod.id,
+                    amount: tipAmount * 100, // Stripe amount is in cents
+                }),
+            });
+
+            if (response.ok) {
+                message.success('Your tips have been sent.');
+                setIsModalVisible(false);
+            } else {
+                message.error('Failed to send tips. Please try again.');
+            }
         }
     };
 
@@ -54,6 +80,10 @@ const SendTips = () => {
 
     const onNotesChange = (e) => {
         setTipNotes(e.target.value);
+    };
+
+    const onCountryChange = (value) => {
+        setCountry(value);
     };
 
     return (
@@ -86,10 +116,10 @@ const SendTips = () => {
                         <Input placeholder="Enter your city" />
                     </Form.Item>
                     <Form.Item label="Country" required>
-                        <Select placeholder="Select your country">
-                            <Option value="USA">USA</Option>
-                            <Option value="UK">UK</Option>
-                            <Option value="Canada">Canada</Option>
+                        <Select placeholder="Select your country" onChange={onCountryChange}>
+                            <Option value="US">USA</Option>
+                            <Option value="GB">UK</Option>
+                            <Option value="CA">Canada</Option>
                         </Select>
                     </Form.Item>
                     <Form.Item label="Postal Code" required>
