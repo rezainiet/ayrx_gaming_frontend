@@ -20,6 +20,7 @@ import GamePage from './pages/GamePage/GamePage';
 import GameDetails from './pages/GamePage/GameDetails/GameDetails';
 import GameGroup from './pages/GamePage/GameDetails/RelatedGroups/GameGroup/GameGroup';
 import UserProfile from './pages/UserProfile/UserProfile';
+import SearchResults from './pages/SearchResults/SearchResults';
 
 
 function App() {
@@ -78,6 +79,7 @@ function App() {
           <Route path='/register' element={<Register />} />
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/games' element={<GamePage />} />
+          <Route path="/search" element={<SearchResults />} />
           <Route path='/game/:id' element={<GameDetails />} />
           <Route path='/profile/:userId' element={<RequireAuth>
             <UserProfile />

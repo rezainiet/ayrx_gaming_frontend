@@ -1,3 +1,4 @@
+// UserProfile.js
 import { Layout, Row, Col, Avatar, Typography, Divider, Button, Card, Tag, Space } from 'antd';
 import { UserAddOutlined, UserDeleteOutlined, MessageOutlined, CheckCircleOutlined, StopOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
@@ -18,13 +19,17 @@ const UserProfile = () => {
     const { user, loading } = useFetchUserData(userId);
     const [isSentRequest, setIsSentRequest] = useState(undefined);
     const [isReceivedRequest, setIsReceivedRequest] = useState(undefined);
+    const [isBlocked, setIsBlocked] = useState(undefined);
+    const [isGotBlocked, setIsGotBlocked] = useState(undefined);
 
-    const { sendFriendRequest, cancelFriendRequest, acceptFriendRequest } = useFriendRequest(isSentRequest, isReceivedRequest);
+    const { sendFriendRequest, cancelFriendRequest, acceptFriendRequest, blockUser, unBlockUser } = useFriendRequest(isSentRequest, isReceivedRequest);
 
     useEffect(() => {
         if (!loading && user) {
             setIsSentRequest(user.isSentRequest);
             setIsReceivedRequest(user.isReceivedRequest);
+            setIsBlocked(user.isBlocked);
+            setIsGotBlocked(user.isGotBlocked);
         }
     }, [loading, user]);
 
@@ -32,7 +37,11 @@ const UserProfile = () => {
         return <h1>Loading...</h1>;
     }
 
-    console.log("Is Friend:", user.isFriend, "Is Sent Request:", isSentRequest, "Is Received Request:", isReceivedRequest);
+    if (isGotBlocked) {
+        return <>Requested Page is not found!</>
+    }
+
+    console.log("Is Friend:", user.isFriend, "Is Sent Request:", isSentRequest, "Is Received Request:", isReceivedRequest, "Visited profile blocked:", isBlocked, "I got blocked", isGotBlocked);
 
     return (
         <Layout>
@@ -94,43 +103,72 @@ const UserProfile = () => {
                                         )}
                                         {user.isFriend && (
                                             <>
+                                                {isBlocked ? (
+                                                    <Button
+                                                        icon={<StopOutlined />}
+                                                        className="font-poppins"
+                                                        onClick={() => unBlockUser(userId)}
+                                                    >
+                                                        Unblock
+                                                    </Button>
+                                                ) : (
+                                                    <Button
+                                                        icon={<StopOutlined />}
+                                                        className="font-poppins"
+                                                        onClick={() => blockUser(userId)}
+                                                    >
+                                                        Block
+                                                    </Button>
+                                                )}
                                                 <Button icon={<MessageOutlined />} className="font-poppins">Message</Button>
-                                                <Button icon={<StopOutlined />} className="font-poppins">Block</Button>
                                             </>
                                         )}
                                     </Space>
                                 </Col>
                             </Row>
 
-                            <Divider />
-                            <Row gutter={[16, 16]}>
-                                <Col xs={24} sm={12}>
-                                    <Card title='About Me' className='mb-5'>
-                                        <Text className='font-poppins'>{user?.aboutUser || "Hey, I'm New User."}</Text>
-                                    </Card>
+                            {
+                                !isBlocked && <>
+                                    <Divider />
+                                    <Row gutter={[16, 16]}>
+                                        <Col xs={24} sm={12}>
+                                            <Card title='About Me' className='mb-5'>
+                                                <Text className='font-poppins'>{user?.aboutUser || "Hey, I'm New User."}</Text>
+                                            </Card>
 
-                                    {/* Next Steps */}
-                                    <UserNextSteps />
-                                </Col>
-                                <Col xs={24} sm={12}>
-                                    <Card>
-                                        <Title level={4} className='font-poppins'>Interests</Title>
-                                        <div>
-                                            {user?.interests?.map(interest => (
-                                                <Tag key={interest} color="geekblue">{interest}</Tag>
-                                            ))}
-                                        </div>
-                                    </Card>
-                                </Col>
-                            </Row>
-                            <Divider />
-                            <UserProfileNav />
+                                            {/* Next Steps */}
+                                            <UserNextSteps />
+                                        </Col>
+                                        <Col xs={24} sm={12}>
+                                            <Card>
+                                                <Title level={4} className='font-poppins'>Interests</Title>
+                                                <div>
+                                                    {user?.interests?.map(interest => (
+                                                        <Tag key={interest} color="geekblue">{interest}</Tag>
+                                                    ))}
+                                                </div>
+                                            </Card>
+                                        </Col>
+                                    </Row>
+                                </>
+                            }
+                            {
+                                !isBlocked && <>
+                                    <Divider />
+                                    <UserProfileNav />
+                                </>
+                            }
+
                         </Card>
                         <Divider />
 
-                        {/* recent posts */}
-                        <Title level={3} className='font-poppins'>Recent Posts</Title>
-                        <UserRecentPosts />
+                        {
+                            !isBlocked && <>
+                                {/* recent posts */}
+                                <Title level={3} className='font-poppins'>Recent Posts</Title>
+                                <UserRecentPosts />
+                            </>
+                        }
                     </Col>
                 </Row>
             </Content>

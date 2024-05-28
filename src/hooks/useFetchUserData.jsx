@@ -19,9 +19,10 @@ const useFetchUserData = (userId) => {
                 const isFriend = userData.friends.includes(authUserId);
                 const isSentRequest = userData.receivedRequests.includes(authUserId);
                 const isReceivedRequest = userData.sentRequests.includes(authUserId);
-                console.log("Is Friend:", isFriend, "Is Sent Request:", isSentRequest, "Is Received Request:", isReceivedRequest);
+                const isBlocked = userData.gotBlocked.includes(authUserId);
+                const isGotBlocked = userData.blockedUsers.includes(authUserId);
 
-                setUser({ ...userData, isFriend, isSentRequest, isReceivedRequest });
+                setUser({ ...userData, isFriend, isSentRequest, isReceivedRequest, isBlocked, isGotBlocked });
                 setLoading(false);
             } catch (error) {
                 console.error("Error fetching user data:", error);
