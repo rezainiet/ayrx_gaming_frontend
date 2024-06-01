@@ -1,16 +1,18 @@
 import axios from "axios";
 import { useState } from "react";
 
-const useFriendRequest = (initialIsSentRequest, initialIsReceivedRequest) => {
-    const [isSentRequest, setIsSentRequest] = useState(initialIsSentRequest);
-    const [isReceivedRequest, setIsReceivedRequest] = useState(initialIsReceivedRequest);
-    const [isBlocked, setIsBlocked] = useState(false);
+const useFriendRequest = (
+    initialIsSentRequest, initialIsReceivedRequest, setIsSentRequest, setIsReceivedRequest, setIsBlocked, setIsFriend
+) => {
+    const [isSentRequest, localSetIsSentRequest] = useState(initialIsSentRequest);
+    const [isReceivedRequest, localSetIsReceivedRequest] = useState(initialIsReceivedRequest);
 
     const sendFriendRequest = async (userId) => {
         try {
             axios.defaults.withCredentials = true;
             await axios.post(`http://localhost:4000/api/v1/user/sendFriendRequest`, { userId });
             setIsSentRequest(true);
+            localSetIsSentRequest(true);
         } catch (error) {
             console.error("Error sending friend request:", error);
         }
@@ -21,6 +23,7 @@ const useFriendRequest = (initialIsSentRequest, initialIsReceivedRequest) => {
             axios.defaults.withCredentials = true;
             await axios.post(`http://localhost:4000/api/v1/user/cancelFriendRequest`, { userId });
             setIsSentRequest(false);
+            localSetIsSentRequest(false);
         } catch (error) {
             console.error("Error canceling friend request:", error);
         }
@@ -31,7 +34,9 @@ const useFriendRequest = (initialIsSentRequest, initialIsReceivedRequest) => {
             axios.defaults.withCredentials = true;
             await axios.post(`http://localhost:4000/api/v1/user/acceptFriendRequest`, { userId });
             setIsReceivedRequest(false);
-            setIsSentRequest(false); // Assuming the request is moved to friends list
+            localSetIsReceivedRequest(false);
+            setIsSentRequest(false);
+            setIsFriend(true);
         } catch (error) {
             console.error("Error accepting friend request:", error);
         }
@@ -46,6 +51,7 @@ const useFriendRequest = (initialIsSentRequest, initialIsReceivedRequest) => {
             console.error("Error blocking user:", error);
         }
     };
+
     const unBlockUser = async (userId) => {
         try {
             axios.defaults.withCredentials = true;
@@ -56,7 +62,7 @@ const useFriendRequest = (initialIsSentRequest, initialIsReceivedRequest) => {
         }
     };
 
-    return { isSentRequest, sendFriendRequest, cancelFriendRequest, acceptFriendRequest, blockUser, isBlocked, unBlockUser };
+    return { isSentRequest, sendFriendRequest, cancelFriendRequest, acceptFriendRequest, blockUser, unBlockUser };
 };
 
 export default useFriendRequest;

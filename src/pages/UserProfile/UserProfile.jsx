@@ -1,4 +1,3 @@
-// UserProfile.js
 import { Layout, Row, Col, Avatar, Typography, Divider, Button, Card, Tag, Space } from 'antd';
 import { UserAddOutlined, UserDeleteOutlined, MessageOutlined, CheckCircleOutlined, StopOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
@@ -21,8 +20,11 @@ const UserProfile = () => {
     const [isReceivedRequest, setIsReceivedRequest] = useState(undefined);
     const [isBlocked, setIsBlocked] = useState(undefined);
     const [isGotBlocked, setIsGotBlocked] = useState(undefined);
+    const [isFriend, setIsFriend] = useState(undefined);
 
-    const { sendFriendRequest, cancelFriendRequest, acceptFriendRequest, blockUser, unBlockUser } = useFriendRequest(isSentRequest, isReceivedRequest);
+    const { sendFriendRequest, cancelFriendRequest, acceptFriendRequest, blockUser, unBlockUser } = useFriendRequest(
+        isSentRequest, isReceivedRequest, setIsSentRequest, setIsReceivedRequest, setIsBlocked, setIsFriend
+    );
 
     useEffect(() => {
         if (!loading && user) {
@@ -38,7 +40,7 @@ const UserProfile = () => {
     }
 
     if (isGotBlocked) {
-        return <>Requested Page is not found!</>
+        return <>Requested Page is not found!</>;
     }
 
     console.log("Is Friend:", user.isFriend, "Is Sent Request:", isSentRequest, "Is Received Request:", isReceivedRequest, "Visited profile blocked:", isBlocked, "I got blocked", isGotBlocked);
@@ -49,7 +51,6 @@ const UserProfile = () => {
                 <Row justify="center">
                     <Col xs={24} sm={20} lg={16}>
                         <Card>
-                            {/* Profile header */}
                             <Row gutter={[16, 16]} align="middle" className="p-4 bg-white shadow rounded-md">
                                 <Col>
                                     <Avatar size={120} src={authUser?.profilePhoto} />
@@ -75,7 +76,9 @@ const UserProfile = () => {
                                                         icon={<CheckCircleOutlined />}
                                                         type="primary"
                                                         className="font-poppins"
-                                                        onClick={() => acceptFriendRequest(userId)}
+                                                        onClick={() => {
+                                                            acceptFriendRequest(userId);
+                                                        }}
                                                     >
                                                         Confirm Request
                                                     </Button>
@@ -85,7 +88,9 @@ const UserProfile = () => {
                                                         type="primary"
                                                         danger
                                                         className="font-poppins"
-                                                        onClick={() => cancelFriendRequest(userId)}
+                                                        onClick={() => {
+                                                            cancelFriendRequest(userId);
+                                                        }}
                                                     >
                                                         Cancel Request
                                                     </Button>
@@ -94,7 +99,9 @@ const UserProfile = () => {
                                                         icon={<UserAddOutlined />}
                                                         type="primary"
                                                         className="font-poppins"
-                                                        onClick={() => sendFriendRequest(userId)}
+                                                        onClick={() => {
+                                                            sendFriendRequest(userId);
+                                                        }}
                                                     >
                                                         Add Friend
                                                     </Button>
@@ -107,7 +114,9 @@ const UserProfile = () => {
                                                     <Button
                                                         icon={<StopOutlined />}
                                                         className="font-poppins"
-                                                        onClick={() => unBlockUser(userId)}
+                                                        onClick={() => {
+                                                            unBlockUser(userId);
+                                                        }}
                                                     >
                                                         Unblock
                                                     </Button>
@@ -115,7 +124,9 @@ const UserProfile = () => {
                                                     <Button
                                                         icon={<StopOutlined />}
                                                         className="font-poppins"
-                                                        onClick={() => blockUser(userId)}
+                                                        onClick={() => {
+                                                            blockUser(userId);
+                                                        }}
                                                     >
                                                         Block
                                                     </Button>
@@ -127,8 +138,8 @@ const UserProfile = () => {
                                 </Col>
                             </Row>
 
-                            {
-                                !isBlocked && <>
+                            {!isBlocked && (
+                                <>
                                     <Divider />
                                     <Row gutter={[16, 16]}>
                                         <Col xs={24} sm={12}>
@@ -136,7 +147,6 @@ const UserProfile = () => {
                                                 <Text className='font-poppins'>{user?.aboutUser || "Hey, I'm New User."}</Text>
                                             </Card>
 
-                                            {/* Next Steps */}
                                             <UserNextSteps />
                                         </Col>
                                         <Col xs={24} sm={12}>
@@ -151,24 +161,21 @@ const UserProfile = () => {
                                         </Col>
                                     </Row>
                                 </>
-                            }
-                            {
-                                !isBlocked && <>
+                            )}
+                            {!isBlocked && (
+                                <>
                                     <Divider />
-                                    <UserProfileNav />
+                                    <UserProfileNav userId={userId} />
                                 </>
-                            }
-
+                            )}
                         </Card>
                         <Divider />
-
-                        {
-                            !isBlocked && <>
-                                {/* recent posts */}
+                        {!isBlocked && (
+                            <>
                                 <Title level={3} className='font-poppins'>Recent Posts</Title>
                                 <UserRecentPosts />
                             </>
-                        }
+                        )}
                     </Col>
                 </Row>
             </Content>

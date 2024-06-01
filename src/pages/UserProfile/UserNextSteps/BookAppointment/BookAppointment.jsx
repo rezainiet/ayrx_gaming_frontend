@@ -3,19 +3,13 @@ import { Button, Modal, DatePicker, TimePicker, Space, message, Alert, Input } f
 import { ScheduleFilled } from '@ant-design/icons';
 import React from 'react';
 import moment from 'moment';
-
-const existingSchedules = [
-    {
-        start: moment('2024-05-27 04:00'),
-        end: moment('2024-05-27 06:00')
-    },
-    {
-        start: moment('2024-06-02 14:00'),
-        end: moment('2024-06-02 15:00')
-    }
-];
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const BookAppointment = () => {
+    const { userId } = useParams();
+    const { authUser } = useSelector(store => store.user);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [date, setDate] = useState(null);
     const [startTime, setStartTime] = useState(null);
@@ -32,14 +26,26 @@ const BookAppointment = () => {
         setIsModalVisible(true);
     };
 
-    const handleOk = () => {
+    const handleOk = async () => {
         if (isScheduleAvailable(date, startTime, endTime)) {
-            console.log("Date:", date);
-            console.log("Start Time:", startTime);
-            console.log("End Time:", endTime);
-            console.log("Message:", messageText);
-            message.success('Your booking has been confirmed.');
-            setIsModalVisible(false);
+            try {
+                const appointmentData = {
+                    buyer: authUser?._id, // Replace with actual buyer ID
+                    seller: userId, // Replace with actual seller ID
+                    amount: 100, // Replace with actual amount
+                    status: 'pending',
+                    date: date.format(),
+                    startTime: startTime.format(),
+                    endTime: endTime.format(),
+                    message: messageText
+                };
+
+                const response = await axios.post('http://localhost:4000/api/v1/appointment/createAppointment', appointmentData);
+                message.success('Your booking has been confirmed.');
+                setIsModalVisible(false);
+            } catch (error) {
+                message.error('An error occurred while booking the appointment.');
+            }
         } else {
             message.error('The selected time slot is already booked.');
         }
@@ -67,6 +73,8 @@ const BookAppointment = () => {
 
     const isScheduleAvailable = (date, startTime, endTime) => {
         if (!date || !startTime || !endTime) return false; // Consider as not available if any field is not filled
+
+        // Adjust selected times to the same date
         const selectedStart = moment(date).set({
             hour: startTime.hour(),
             minute: startTime.minute()
@@ -75,11 +83,9 @@ const BookAppointment = () => {
             hour: endTime.hour(),
             minute: endTime.minute()
         });
-        return !existingSchedules.some(schedule =>
-            (selectedStart.isBetween(schedule.start, schedule.end, null, '[)') ||
-                selectedEnd.isBetween(schedule.start, schedule.end, null, '(]')) ||
-            (selectedStart.isSameOrBefore(schedule.start) && selectedEnd.isSameOrAfter(schedule.end))
-        );
+
+        // You can remove the existingSchedules check and rely solely on the backend validation
+        return true;
     };
 
     const validateSchedule = (date, startTime, endTime) => {
@@ -124,6 +130,6 @@ const BookAppointment = () => {
             </Modal>
         </>
     );
-}
+};
 
 export default BookAppointment;

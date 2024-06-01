@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Typography, Avatar, Button, Input } from 'antd';
+import { Typography, Button, Input, Upload, Modal, message } from 'antd';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import CreatePost from './CreatePost/CreatePost';
@@ -16,10 +16,12 @@ const GameGroup = () => {
     const [joined, setJoined] = useState(false);
     const [newPost, setNewPost] = useState("");
     const [newComment, setNewComment] = useState("");
-    const [posts, setPosts] = useState(null);
     const [group, setGroup] = useState(null);
     const [loading, setLoading] = useState(false);
     const [user, setUser] = useState({});
+    const [newCoverPhoto, setNewCoverPhoto] = useState(null);
+    const [newGroupName, setNewGroupName] = useState("");
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         setLoading(true);
@@ -82,7 +84,6 @@ const GameGroup = () => {
         }
     };
 
-
     const handlePost = async () => {
         try {
             axios.defaults.withCredentials = true;
@@ -120,6 +121,44 @@ const GameGroup = () => {
         console.log('Liked');
     }
 
+    const handleCoverPhotoChange = async (file) => {
+        const apiKey = 'b379cea0ac99373d4d9466d4578912f3'; // Replace with your ImgBB API key
+        const formData = new FormData();
+        formData.append('image', file);
+
+        try {
+            const response = await axios.post('https://api.imgbb.com/1/upload?key=b379cea0ac99373d4d9466d4578912f3', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                withCredentials: false, // Set withCredentials to false
+            });
+            setNewCoverPhoto(response.data.data.url);
+            message.success('Image uploaded successfully');
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            message.error('Failed to upload image');
+        }
+    };
+
+    const handleGroupUpdate = async () => {
+        try {
+            axios.defaults.withCredentials = true;
+            const updatedGroup = {
+                title: newGroupName || group.title,
+                coverPhoto: newCoverPhoto || group.coverPhoto
+            };
+            const response = await axios.put(`http://localhost:4000/api/v1/groups/${groupId}/update`, updatedGroup);
+            setGroup(response.data);
+            setIsModalOpen(false);
+            message.success('Group updated successfully');
+            window.location.reload();
+        } catch (error) {
+            console.error('Error updating group:', error);
+            message.error('Failed to update group');
+        }
+    };
+
     if (!group) {
         return <div>Group not found</div>;
     }
@@ -132,21 +171,56 @@ const GameGroup = () => {
             {/* Group Info */}
             <div className="flex flex-col md:flex-row items-center justify-between mb-6 p-4 bg-white shadow rounded-md">
                 <div className="flex items-center mb-4 md:mb-0">
-                    <Avatar src={group.avatarUrl} size={64} className="mr-4" />
+                    {/* <Avatar src={group.avatarUrl} size={64} className="mr-4" /> */}
                     <div>
                         <Title level={2} className="font-poppins m-0">{group.title}</Title>
                         <Paragraph className="font-poppins mt-1 mb-2 text-gray-600">{group.description}</Paragraph>
                         <Text className="font-poppins text-sm text-gray-500">Author: {group.author.fullName}</Text>
                     </div>
                 </div>
-                <Button
-                    type={joined ? "default" : "primary"}
-                    onClick={handleJoinLeave}
-                    className="mt-4 md:mt-0 md:ml-auto"
-                >
-                    {joined ? "Leave Group" : "Join Group"}
-                </Button>
+                <div className="flex items-center">
+                    <Button
+                        type={joined ? "default" : "primary"}
+                        onClick={handleJoinLeave}
+                        className="mt-4 md:mt-0 md:ml-auto"
+                    >
+                        {joined ? "Leave Group" : "Join Group"}
+                    </Button>
+                    {authUser && authUser._id === group.author._id && (
+                        <Button
+                            type="default"
+                            onClick={() => setIsModalOpen(true)}
+                            className="ml-2"
+                        >
+                            Edit Group
+                        </Button>
+                    )}
+                </div>
             </div>
+
+            {/* Modal for updating group */}
+            <Modal
+                title="Update Group"
+                open={isModalOpen}
+                onOk={handleGroupUpdate}
+                onCancel={() => setIsModalOpen(false)}
+                okText="Save"
+                cancelText="Cancel"
+            >
+                <Input
+                    placeholder="New Group Name"
+                    value={newGroupName}
+                    onChange={e => setNewGroupName(e.target.value)}
+                    className="mb-4"
+                />
+                <Upload
+                    beforeUpload={handleCoverPhotoChange}
+                    showUploadList={false}
+                >
+                    <Button>Change Cover Photo</Button>
+                </Upload>
+            </Modal>
+
             <div className='mb-5'>
                 <GroupMembers Title={Title} group={group} />
             </div>

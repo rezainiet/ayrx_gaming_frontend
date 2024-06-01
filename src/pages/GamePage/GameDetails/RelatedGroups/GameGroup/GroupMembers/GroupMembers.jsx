@@ -1,36 +1,36 @@
-import React from 'react'
+import React from 'react';
+import { Typography, Avatar } from 'antd';
 
-const GroupMembers = ({ Title, group }) => {
-    // console.log(group)
+const { Title, Text } = Typography;
+
+const GroupMembers = ({ group }) => {
+    const maxVisibleMembers = 20;
+
     return (
         <div>
             {/* Members */}
             <Title level={4} className="font-poppins mt-8 ml-5">Group Members!</Title>
+            <Title level={5} className="font-poppins ml-5">{group?.members?.length} Members</Title>
             <div className="avatar-group -space-x-6 rtl:space-x-reverse ml-5">
                 {
-                    group && group?.members?.length > 0 && group?.members?.map(member => (
+                    group && group.members.length > 0 && group.members.slice(0, maxVisibleMembers).map(member => (
                         <div className="avatar" key={member._id}> {/* Ensure a unique key */}
                             <div className="w-12">
-                                {console.log(member)}
-                                <img src={member.profilePhoto || "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"} /> {/* Use member's profilePhoto if available */}
+                                <img src={member.profilePhoto || "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"} alt={member.name} /> {/* Use member's profilePhoto if available */}
                             </div>
                         </div>
                     ))
                 }
-            </div>
-            {/* <List
-                bordered
-                dataSource={group.members}
-                renderItem={member => (
-                    <List.Item className="p-2">
-                        <Avatar src={member.avatarUrl} size={32} className="mr-2" />
-                        <Text className="font-poppins">{member.name}</Text>
-                    </List.Item>
+                {group && group.members.length > maxVisibleMembers && (
+                    <div className="avatar placeholder">
+                        <div className="w-12 flex items-center justify-center bg-gray-200 text-gray-800 rounded-full">
+                            +{group.members.length - maxVisibleMembers}
+                        </div>
+                    </div>
                 )}
-                className="mt-4"
-            /> */}
+            </div>
         </div>
-    )
-}
+    );
+};
 
-export default GroupMembers
+export default GroupMembers;

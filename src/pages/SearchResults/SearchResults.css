@@ -20,12 +20,12 @@
 .ant-card {
     border-radius: 8px;
     overflow: hidden;
-    transition: transform 0.2s;
+    /* transition: transform 0.2s; */
 }
 
-.ant-card:hover {
+/* .ant-card:hover {
     transform: scale(1.05);
-}
+} */
 
 .ant-card-cover img {
     height: 200px;

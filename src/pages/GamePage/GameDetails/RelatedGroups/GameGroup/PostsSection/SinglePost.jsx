@@ -195,7 +195,7 @@ const SinglePost = ({ item, authUser }) => {
                                                     </div>
                                                 </div>
                                             ))}
-                                            <Button type="link" onClick={toggleReplyForm}>Reply</Button>
+                                            {/* <Button type="link" onClick={toggleReplyForm}>Reply</Button> */}
                                             {replyFormOpen && (
                                                 <Form onFinish={() => handleReplySubmit(comment._id)}>
                                                     <Form.Item>

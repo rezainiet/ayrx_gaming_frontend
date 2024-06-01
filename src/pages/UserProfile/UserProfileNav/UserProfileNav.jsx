@@ -1,9 +1,10 @@
 import { Col, Menu, Row } from 'antd';
 import React, { useState } from 'react';
 import PostForm from '../../ProfilePage/ProfileNav/PostForm';
+import Projects from './Projects';
 
-const UserProfileNav = () => {
-    const [currentSection, setCurrentSection] = useState('post');
+const UserProfileNav = ({ userId }) => {
+    const [currentSection, setCurrentSection] = useState('project');
 
     const handleMenuClick = e => {
         setCurrentSection(e.key);
@@ -11,8 +12,8 @@ const UserProfileNav = () => {
 
     const renderSection = () => {
         switch (currentSection) {
-            case 'post':
-                return <PostForm />;
+            case 'project':
+                return <Projects userId={userId} />;
             case 'expertise':
                 return <h1>Expertise section</h1>;
             case 'booking':
@@ -32,12 +33,12 @@ const UserProfileNav = () => {
                     onClick={handleMenuClick}
                     style={{ height: '100%', borderRight: 0 }}
                 >
-                    <Menu.Item key="post">Posts</Menu.Item>
+                    <Menu.Item key="project">Project Based Sessions</Menu.Item>
                     <Menu.Item key="expertise">Expertise</Menu.Item>
                     <Menu.Item key="booking">Booking</Menu.Item>
                 </Menu>
             </Col>
-            <Col xs={24} lg={18}>
+            <Col xs={24} lg={24}>
                 {renderSection()}
             </Col>
         </Row>

@@ -36,7 +36,7 @@ const Comments = ({ formatDate, item, activeCommentId, handleReplySubmit, toggle
                                         </div>
                                     ))}
                                     <Button type="link" onClick={toggleReplyForm}>Reply</Button>
-                                    {replyFormOpen && (
+                                    {!replyFormOpen && (
                                         <Form onFinish={() => handleReplySubmit(comment._id)}>
                                             <Form.Item>
                                                 <Input.TextArea

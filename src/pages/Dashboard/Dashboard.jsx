@@ -1,129 +1,108 @@
-import React from 'react';
-import { Layout, Card, Row, Col, Statistic, Table, Tag } from 'antd';
-import {
-    DollarCircleOutlined,
-    CalendarOutlined,
-    NotificationOutlined,
-    CheckCircleOutlined,
-    UserOutlined,
-} from '@ant-design/icons';
+import React, { useEffect, useState } from 'react';
+import { Layout, Row, Col, Tag, Table, notification } from 'antd';
+import axios from 'axios';
+import moment from 'moment';
+import EarningsOverview from './EarningsOverview';
+import CommissionRates from './HourlyRates';
+import BookingManagement from './BookingManagement';
+import MessagingSystem from './ProjectBasedJob';
+import ReviewManagement from './ReviewManagement';
+import TipsManagement from './TipsManagement';
 
 const { Content } = Layout;
 
-const Dashboard = () => {
-    // Sample data for payment history table
-    const paymentHistoryData = [
-        {
-            key: '1',
-            date: '2024-05-15',
-            amount: '$50',
-            type: 'Donation',
-            status: 'Completed',
-        },
-        {
-            key: '2',
-            date: '2024-05-14',
-            amount: '$30',
-            type: 'Tip',
-            status: 'Completed',
-        },
-        // Add more sample data as needed
-    ];
+const paymentHistoryColumns = [
+    {
+        title: 'Date',
+        dataIndex: 'createdAt',
+        key: 'createdAt',
+        render: (date) => moment(date).fromNow(), // Human-readable format
+    },
+    {
+        title: 'Amount',
+        dataIndex: ['payment', 'amount'],
+        key: 'amount',
+        render: (amount) => `$${amount}`,
+    },
+    {
+        title: 'Type',
+        dataIndex: 'type',
+        key: 'type',
+        // render: (type) => (type === 'debit' ? 'Debit' : 'Credit'), // Display "debit" or "credit"
+        render: (type) => (
+            <Tag color={type === 'debit' ? 'error' : 'success'}>
+                {type}
+            </Tag>
+        ), // Display "debit" or "credit"
+    },
+    {
+        title: 'Transaction Type',
+        dataIndex: 'transactionType',
+        key: 'transactionType',
+    },
+    {
+        title: 'Status',
+        dataIndex: ['payment', 'status'],
+        key: 'status',
+        render: (status) => (
+            <Tag color={status === 'completed' ? 'success' : status === 'pending' ? 'processing' : 'error'}>
+                {status}
+            </Tag>
+        ),
+    },
+];
 
-    // Columns configuration for payment history table
-    const paymentHistoryColumns = [
-        {
-            title: 'Date',
-            dataIndex: 'date',
-            key: 'date',
-        },
-        {
-            title: 'Amount',
-            dataIndex: 'amount',
-            key: 'amount',
-        },
-        {
-            title: 'Type',
-            dataIndex: 'type',
-            key: 'type',
-        },
-        {
-            title: 'Status',
-            dataIndex: 'status',
-            key: 'status',
-            render: (status) => (
-                <Tag color={status === 'Completed' ? 'success' : 'processing'}>{status}</Tag>
-            ),
-        },
-    ];
+const Dashboard = () => {
+    const [paymentHistoryData, setPaymentHistoryData] = useState([]);
+
+    useEffect(() => {
+        const fetchTransactions = async () => {
+            try {
+                axios.defaults.withCredentials = true;
+                const response = await axios.get('http://localhost:4000/api/v1/payment/transactions', { withCredentials: true });
+                setPaymentHistoryData(response.data);
+            } catch (error) {
+                notification.error({
+                    message: 'Error',
+                    description: 'Failed to fetch payment history',
+                });
+            }
+        };
+
+        fetchTransactions();
+    }, []);
 
     return (
         <Layout>
             <Content className="p-1 md:p-3 lg:p-6 xl:p-8 bg-bg_color">
                 <Row gutter={[16, 16]}>
                     <Col xs={24} sm={24} md={12} lg={8} xl={6}>
-                        <Card title="Earnings Overview">
-                            <Statistic
-                                title="Total Earnings"
-                                value="$500"
-                                prefix={<DollarCircleOutlined />}
-                            />
-                            {/* Add more Statistic components for additional metrics */}
-                        </Card>
+                        <EarningsOverview />
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={8} xl={6}>
-                        <Card title="Commission Rates">
-                            <Statistic
-                                title="Current Rate"
-                                value="10%"
-                            />
-                        </Card>
+                        <CommissionRates />
                     </Col>
-                    <Col xs={24} sm={24} md={12} lg={8} xl={12}>
-                        <Card title="Payment History" className='mb-5'>
-                            <div style={{ overflowX: 'auto' }}>
-                                <Table
-                                    dataSource={paymentHistoryData}
-                                    columns={paymentHistoryColumns}
-                                    pagination={false}
-                                />
-                            </div>
-                        </Card>
+                    <Col xs={24} sm={24} md={12} lg={12} className='overflow-x-auto'>
+                        <Table
+                            dataSource={paymentHistoryData}
+                            columns={paymentHistoryColumns}
+                            rowKey="_id"
+                            title={() => 'Payment History'}
+                        />
                     </Col>
-
                 </Row>
                 <Row gutter={[16, 16]}>
                     <Col span={24}>
-                        <Card title="Booking Management">
-                            {/* Add components for managing bookings */}
-                            <div className="text-center">
-                                <CalendarOutlined style={{ fontSize: '48px', color: '#1890ff' }} />
-                            </div>
-                        </Card>
+                        <BookingManagement />
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={12} xl={8}>
-                        <Card title="Messaging System">
-                            {/* Add components for messaging system */}
-                            <div className="text-center">
-                                <NotificationOutlined style={{ fontSize: '48px', color: '#1890ff' }} />
-                            </div>
-                        </Card>
+                        <MessagingSystem />
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={12} xl={8}>
-                        <Card title="Review Management">
-                            {/* Add components for review management */}
-                            <div className="text-center">
-                                <CheckCircleOutlined style={{ fontSize: '48px', color: '#1890ff' }} />
-                            </div>
-                        </Card>
+                        <ReviewManagement />
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={12} xl={8}>
-                        <Card title="Tips Management">
-                            {/* Add components for managing tips */}
-                            <div className="text-center">
-                                <DollarCircleOutlined style={{ fontSize: '48px', color: '#1890ff' }} />
-                            </div>
-                        </Card>
+                        <TipsManagement />
                     </Col>
                 </Row>
             </Content>

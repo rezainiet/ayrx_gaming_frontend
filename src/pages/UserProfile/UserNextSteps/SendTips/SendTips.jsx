@@ -3,9 +3,11 @@ import { Button, Modal, Form, Input, InputNumber, Select, Divider, message } fro
 import { SketchCircleFilled } from '@ant-design/icons';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import axios from 'axios';
 import './SendTips.css'; // Import your custom CSS for styling
+import { useSelector } from 'react-redux';
 
-const stripePromise = loadStripe('pk_test_51P8kFfKe15T6nSoizfFRXY9fVOXli5WYaW5LLj5AdpcGvVHS51qsPH8b29pfKlsWlSo5LNJNdqSbFK6JFdNvsvV800lu68rXOQ'); // Replace with your actual Stripe publishable key
+const stripePromise = loadStripe('pk_test_51PKmGjDYUg5iGXsDLr9aKfeZx6aGJ7br9MS4t3TiBTmribrZfhe3eRR4dv1p0pbOV64OJ2c5ydU7xW69mwF7kXNr00u4kFdhdP'); // Replace with your actual Stripe publishable key
 
 const { Option } = Select;
 
@@ -14,8 +16,10 @@ const SendTips = () => {
     const [tipAmount, setTipAmount] = useState(null);
     const [tipNotes, setTipNotes] = useState('');
     const [country, setCountry] = useState('');
+    const [form] = Form.useForm();
     const stripe = useStripe();
     const elements = useElements();
+    const { authUser } = useSelector(store => store.user);
 
     const showModal = () => {
         setIsModalVisible(true);
@@ -28,50 +32,56 @@ const SendTips = () => {
 
         const cardElement = elements.getElement(CardElement);
 
-        const { error, paymentMethod } = await stripe.createPaymentMethod({
-            type: 'card',
-            card: cardElement,
-            billing_details: {
-                name: document.querySelector('input[placeholder="Enter your full name"]').value,
-                email: document.querySelector('input[placeholder="Enter your email"]').value,
-                address: {
-                    line1: document.querySelector('input[placeholder="Enter your address"]').value,
-                    city: document.querySelector('input[placeholder="Enter your city"]').value,
-                    country: country, // Use the 2-character country code
-                    postal_code: document.querySelector('input[placeholder="Enter your postal code"]').value,
+        try {
+            const values = await form.validateFields();
+            const { error, paymentMethod } = await stripe.createPaymentMethod({
+                type: 'card',
+                card: cardElement,
+                billing_details: {
+                    name: values.fullName,
+                    email: values.email,
+                    address: {
+                        line1: values.address,
+                        city: values.city,
+                        country: values.country,
+                        postal_code: values.postalCode,
+                    },
                 },
-            },
-        });
-
-        if (error) {
-            console.log('[error]', error);
-            message.error(error.message);
-        } else {
-            console.log('[PaymentMethod]', paymentMethod);
-
-            // Here, you would send the paymentMethod.id and the tipAmount to your server
-            const response = await fetch('/your-server-endpoint', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    paymentMethodId: paymentMethod.id,
-                    amount: tipAmount * 100, // Stripe amount is in cents
-                }),
             });
 
-            if (response.ok) {
+            if (error) {
+                console.log('[error]', error);
+                message.error(error.message);
+                return;
+            }
+
+            console.log('[PaymentMethod]', paymentMethod);
+
+            const response = await axios.post('http://localhost:4000/api/v1/payment/send-tip', {
+                paymentMethodId: paymentMethod.id,
+                amount: tipAmount * 100, // Stripe amount is in cents
+                notes: tipNotes,
+                email: values.email,
+                paymentAddress: values.address,
+                authUserID: authUser?._id
+            });
+
+            if (response.data.success) {
                 message.success('Your tips have been sent.');
                 setIsModalVisible(false);
+                form.resetFields();
             } else {
-                message.error('Failed to send tips. Please try again.');
+                message.error(`Failed to send tips. ${response.data.error}`);
             }
+        } catch (error) {
+            console.error('Error sending tip:', error);
+            message.error('Failed to send tips. Please try again later.');
         }
     };
 
     const handleCancel = () => {
         setIsModalVisible(false);
+        form.resetFields();
     };
 
     const onAmountChange = (value) => {
@@ -100,29 +110,29 @@ const SendTips = () => {
                 cancelText="Cancel"
                 okButtonProps={{ className: "send-tips-button" }} // Apply custom class to the "Send" button
             >
-                <Form layout="vertical">
+                <Form form={form} layout="vertical">
                     <Divider>User Information</Divider>
-                    <Form.Item label="Full Name" required>
+                    <Form.Item label="Full Name" name="fullName" rules={[{ required: true, message: 'Please enter your full name' }]}>
                         <Input placeholder="Enter your full name" />
                     </Form.Item>
-                    <Form.Item label="Email" required>
+                    <Form.Item label="Email" name="email" rules={[{ required: true, type: 'email', message: 'Please enter a valid email' }]}>
                         <Input placeholder="Enter your email" type="email" />
                     </Form.Item>
                     <Divider>Billing Address</Divider>
-                    <Form.Item label="Address" required>
+                    <Form.Item label="Address" name="address" rules={[{ required: true, message: 'Please enter your address' }]}>
                         <Input placeholder="Enter your address" />
                     </Form.Item>
-                    <Form.Item label="City" required>
+                    <Form.Item label="City" name="city" rules={[{ required: true, message: 'Please enter your city' }]}>
                         <Input placeholder="Enter your city" />
                     </Form.Item>
-                    <Form.Item label="Country" required>
+                    <Form.Item label="Country" name="country" rules={[{ required: true, message: 'Please select your country' }]}>
                         <Select placeholder="Select your country" onChange={onCountryChange}>
                             <Option value="US">USA</Option>
                             <Option value="GB">UK</Option>
                             <Option value="CA">Canada</Option>
                         </Select>
                     </Form.Item>
-                    <Form.Item label="Postal Code" required>
+                    <Form.Item label="Postal Code" name="postalCode" rules={[{ required: true, message: 'Please enter your postal code' }]}>
                         <Input placeholder="Enter your postal code" />
                     </Form.Item>
                     <Divider>Tips Details</Divider>

@@ -55,12 +55,12 @@ const RecentPost = ({ item, authUser }) => {
                 {/* User Info */}
                 <div className="flex items-center mb-2">
                     <div className="flex-shrink-0">
-                        <Link to={item?.author?._id}>
+                        <Link to='#'>
                             <Avatar size={64} src={item?.author?.profilePhoto} />
                         </Link>
                     </div>
                     <div className="ml-3">
-                        <Link to={item?.author?._id}><h3 className="text-lg font-semibold">{item?.author?.fullName}</h3></Link>
+                        <Link to='#'><h3 className="text-lg font-semibold">{item?.author?.fullName}</h3></Link>
                         <p className="text-gray-500">{formatDate(item?.createdAt)}</p>
                     </div>
                 </div>

@@ -21,6 +21,7 @@ import GameDetails from './pages/GamePage/GameDetails/GameDetails';
 import GameGroup from './pages/GamePage/GameDetails/RelatedGroups/GameGroup/GameGroup';
 import UserProfile from './pages/UserProfile/UserProfile';
 import SearchResults from './pages/SearchResults/SearchResults';
+import ProjectDetails from './pages/UserProfile/UserProfileNav/ProjectDetails';
 
 
 function App() {
@@ -77,10 +78,13 @@ function App() {
           <Route exact path='/' element={<Homepage />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
-          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/dashboard' element={<RequireAuth>
+            <Dashboard />
+          </RequireAuth>} />
           <Route path='/games' element={<GamePage />} />
           <Route path="/search" element={<SearchResults />} />
           <Route path='/game/:id' element={<GameDetails />} />
+          <Route path='/session-based-project/:id' element={<ProjectDetails />} />
           <Route path='/profile/:userId' element={<RequireAuth>
             <UserProfile />
           </RequireAuth>} />

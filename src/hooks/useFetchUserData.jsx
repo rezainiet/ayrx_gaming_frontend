@@ -33,7 +33,7 @@ const useFetchUserData = (userId) => {
         fetchUserData();
     }, [userId]);
 
-    return { user, loading };
+    return { user, loading, setUser };
 };
 
 export default useFetchUserData;

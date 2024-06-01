@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Layout, Row, Col, Avatar, Typography, Divider, Button, Card, Tag, Space } from 'antd';
-import { EditOutlined, UserAddOutlined, MessageOutlined } from '@ant-design/icons';
+import { EditOutlined, UserAddOutlined, MessageOutlined, AppstoreOutlined } from '@ant-design/icons';
 import ProfileNav from './ProfileNav/ProfileNav';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import EditProfile from './Modals/EditProfile/EditProfile';
 import RecentPosts from './RecentPosts/RecentPosts';
 import NextSteps from './NextSteps/NextSteps';
+import { useNavigate } from 'react-router-dom';
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
@@ -16,7 +17,7 @@ const Profile = () => {
     const [user, setUser] = useState({});
     const [loading, setLoading] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
-
+    const navigate = useNavigate();
 
     useEffect(() => {
         setLoading(true);
@@ -57,6 +58,10 @@ const Profile = () => {
         return <h1>Loading...</h1>;
     }
 
+
+    const handleClickDashboard = () => {
+        navigate('/dashboard')
+    }
     // console.log(user)
     return (
         <Layout>
@@ -76,11 +81,11 @@ const Profile = () => {
                                 </Col>
                                 <Col className="ml-auto">
                                     <Space>
-                                        <Button icon={<UserAddOutlined />} type="primary" className="font-poppins">Add Friend</Button>
-                                        <Button icon={<MessageOutlined />} className="font-poppins">Message</Button>
+                                        <Button icon={<EditOutlined />} onClick={showModal} className="font-poppins">Edit Profile</Button>
+                                        <Button icon={<AppstoreOutlined />} type="primary" className="font-poppins" onClick={() => handleClickDashboard()}>Dashboard</Button>
+                                        {/* <Button icon={<MessageOutlined />} className="font-poppins">Message</Button> */}
                                         {/* <Button icon={<StopOutlined />} danger className="font-poppins">Block</Button>
                                         <Button icon={<CloseCircleOutlined />} className="font-poppins">Cancel Request</Button> */}
-                                        <Button icon={<EditOutlined />} onClick={showModal} className="font-poppins">Edit Profile</Button>
                                     </Space>
                                 </Col>
                             </Row>
