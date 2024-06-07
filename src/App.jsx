@@ -23,7 +23,6 @@ import UserProfile from './pages/UserProfile/UserProfile';
 import SearchResults from './pages/SearchResults/SearchResults';
 import ProjectDetails from './pages/UserProfile/UserProfileNav/ProjectDetails';
 
-
 function App() {
   const { authUser } = useSelector(store => store.user);
   const dispatch = useDispatch();
@@ -32,8 +31,9 @@ function App() {
   useEffect(() => {
     let newSocket;
     if (authUser) {
+      // newSocket = io('http://localhost:4000', {
       newSocket = io('http://localhost:4000', {
-        transports: ['websocket'], // Force WebSocket transport to avoid polling
+        transports: ['websocket'],
         withCredentials: true,
         query: {
           userId: authUser?._id
@@ -41,8 +41,7 @@ function App() {
       });
 
       newSocket.on('connect', () => {
-        // console.log(`Connected with socket ID: ${newSocket.id}`);
-        // console.log(newSocket)
+        console.log(`Connected with socket ID: ${newSocket.id}`);
         dispatch(setSocket(newSocket));
       });
 
@@ -51,52 +50,37 @@ function App() {
       });
 
       newSocket.on('connect_error', (err) => {
-        console.error(`Connection error: ${err.message}`);
+        console.error(`Connection error: ${err.message}`, err);
       });
 
-      // Clean up the connection when the component unmounts or authUser changes
       return () => {
         newSocket.close();
       };
-    }
-
-    else {
+    } else {
       if (socket) {
         socket.close();
       }
       dispatch(setSocket(null));
     }
-
-    // Ensure dependencies are included in the dependency array
   }, [authUser, dispatch]);
 
   return (
     <div className='max-w-screen-2xl mx-auto sm:px-0 md:px-3 lg:px-6 py-6 font-poppins bg-bg_color'>
       <Navbar />
-      <div className=''>
+      <div>
         <Routes>
           <Route exact path='/' element={<Homepage />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
-          <Route path='/dashboard' element={<RequireAuth>
-            <Dashboard />
-          </RequireAuth>} />
+          <Route path='/dashboard' element={<RequireAuth><Dashboard /></RequireAuth>} />
           <Route path='/games' element={<GamePage />} />
           <Route path="/search" element={<SearchResults />} />
           <Route path='/game/:id' element={<GameDetails />} />
           <Route path='/session-based-project/:id' element={<ProjectDetails />} />
-          <Route path='/profile/:userId' element={<RequireAuth>
-            <UserProfile />
-          </RequireAuth>} />
-          <Route path='/game/groups/:groupId' element={<RequireAuth>
-            <GameGroup />
-          </RequireAuth>} />
-          <Route path='/profile' element={<RequireAuth>
-            <ProfilePage3 />
-          </RequireAuth>} />
-          <Route path='/chat' element={<RequireAuth>
-            <Chat />
-          </RequireAuth>} />
+          <Route path='/profile/:userId' element={<RequireAuth><UserProfile /></RequireAuth>} />
+          <Route path='/game/groups/:groupId' element={<RequireAuth><GameGroup /></RequireAuth>} />
+          <Route path='/profile' element={<RequireAuth><ProfilePage3 /></RequireAuth>} />
+          <Route path='/chat' element={<RequireAuth><Chat /></RequireAuth>} />
           <Route exact path='/profile2' element={<ProfilePage2 />} />
         </Routes>
       </div>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Layout, Button, Drawer, Divider } from 'antd';
+import { Layout, Button, Drawer, Divider, message } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useSignOut } from 'react-firebase-hooks/auth';
 import auth from '../../../firebase.config';
 import { Link, useNavigate } from 'react-router-dom';
@@ -9,6 +9,9 @@ import SearchBar from './SearchBar';
 import DesktopMenu from './DesktopMenu';
 import MobileMenu from './MobileMenu';
 import './Navbar.css'; // Custom CSS for styles
+import axios from 'axios';
+import { setAuthUser, setOtherUsers, setSelectedUser } from '../../../redux/userSlice';
+import { setMessages } from '../../../redux/messageSlice';
 
 const { Header } = Layout;
 
@@ -19,6 +22,7 @@ const Navbar = () => {
     const [drawerVisible, setDrawerVisible] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleClick = (e) => {
         setCurrent(e.key);
@@ -40,9 +44,17 @@ const Navbar = () => {
     };
 
     const handleLogout = async () => {
-        const success = await signOut();
-        if (success) {
-            alert('You are signed out');
+        try {
+            const res = await axios.get(`http://localhost:4000/api/v1/user/logout`);
+            message.success('Logout successful.');
+            dispatch(setSelectedUser(null));
+            dispatch(setOtherUsers(null));
+            dispatch(setAuthUser(null));
+            dispatch(setMessages(null));
+            navigate('/login');
+        } catch (error) {
+            console.error('Logout error:', error);
+            message.error('Failed to logout. Please try again later.');
         }
     };
 

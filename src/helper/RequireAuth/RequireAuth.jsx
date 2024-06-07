@@ -8,7 +8,6 @@ const RequireAuth = ({ children }) => {
     // const [user, loading] = useAuthState(auth);
     const { authUser, loading } = useSelector(store => store.user);
     const location = useLocation();
-
     if (loading) {
         return <p>Loading...</p>
     }
