@@ -1,7 +1,7 @@
 // src/services/forumService.js
 import axios from 'axios';
 
-const API_URL = 'http://localhost:4000/api'; // Change this to your actual backend URL
+const API_URL = 'https://www.api.onlyhumanity.co.uk/api'; // Change this to your actual backend URL
 const IMGBB_API_KEY = 'b379cea0ac99373d4d9466d4578912f3'; // Replace with your ImgBB API key
 
 // User APIs

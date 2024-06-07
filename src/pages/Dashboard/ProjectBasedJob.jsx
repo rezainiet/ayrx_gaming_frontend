@@ -28,7 +28,7 @@ const ProjectBasedJob = () => {
             };
 
             axios.defaults.withCredentials = true;
-            const res = await axios.post(`http://localhost:4000/api/v1/user/${authUser?._id}/addUserProject`, projectData);
+            const res = await axios.post(`https://www.api.onlyhumanity.co.uk/api/v1/user/${authUser?._id}/addUserProject`, projectData);
             const result = res.data;
 
             setProjects([...projects, projectData]);

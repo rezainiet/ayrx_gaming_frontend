@@ -40,7 +40,7 @@ const BookAppointment = () => {
                     message: messageText
                 };
 
-                const response = await axios.post('http://localhost:4000/api/v1/appointment/createAppointment', appointmentData);
+                const response = await axios.post('https://www.api.onlyhumanity.co.uk/api/v1/appointment/createAppointment', appointmentData);
                 message.success('Your booking has been confirmed.');
                 setIsModalVisible(false);
             } catch (error) {

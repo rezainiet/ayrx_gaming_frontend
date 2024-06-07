@@ -31,8 +31,8 @@ function App() {
   useEffect(() => {
     let newSocket;
     if (authUser) {
-      // newSocket = io('http://localhost:4000', {
-      newSocket = io('http://localhost:4000', {
+      // newSocket = io('https://www.api.onlyhumanity.co.uk', {
+      newSocket = io('https://www.api.onlyhumanity.co.uk', {
         transports: ['websocket'],
         withCredentials: true,
         query: {

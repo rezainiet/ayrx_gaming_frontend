@@ -8,7 +8,7 @@ const useGetOtherUsers = () => {
         const fetchOtherUsers = async () => {
             try {
                 axios.defaults.withCredentials = true;
-                const res = await axios.get(`http://localhost:4000/api/v1/user`);
+                const res = await axios.get(`https://www.api.onlyhumanity.co.uk/api/v1/user`);
                 dispatch(setOtherUsers(res.data))
             } catch (error) {
                 // console.log(error)

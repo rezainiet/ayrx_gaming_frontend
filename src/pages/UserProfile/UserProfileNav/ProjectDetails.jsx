@@ -35,7 +35,7 @@ const ProjectDetails = () => {
     const fetchProjectDetails = async () => {
         try {
             axios.defaults.withCredentials = true;
-            const response = await axios.get(`http://localhost:4000/api/v1/user/projects/${id}`);
+            const response = await axios.get(`https://www.api.onlyhumanity.co.uk/api/v1/user/projects/${id}`);
             const data = response.data;
             setProject(data.project);
         } catch (error) {

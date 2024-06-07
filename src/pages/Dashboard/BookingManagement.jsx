@@ -18,7 +18,7 @@ const BookingManagement = () => {
         const fetchBookings = async () => {
             try {
                 const userId = authUser?._id;
-                const response = await axios.get(`http://localhost:4000/api/v1/booking/getBookings/${userId}`);
+                const response = await axios.get(`https://www.api.onlyhumanity.co.uk/api/v1/booking/getBookings/${userId}`);
                 const { buyerBookings, sellerBookings } = response.data;
                 const allBookings = [...buyerBookings, ...sellerBookings];
                 setBookings(allBookings);
@@ -48,7 +48,7 @@ const BookingManagement = () => {
     const handleSave = async (values) => {
         try {
             axios.defaults.withCredentials = true;
-            await axios.put(`http://localhost:4000/api/v1/booking/updateBooking/${currentBooking._id}`, values);
+            await axios.put(`https://www.api.onlyhumanity.co.uk/api/v1/booking/updateBooking/${currentBooking._id}`, values);
             const updatedBookings = bookings.map(booking =>
                 booking._id === currentBooking._id ? { ...booking, ...values } : booking
             );
@@ -68,7 +68,7 @@ const BookingManagement = () => {
                 amount: booking.amount,
                 author: booking.product.author
             };
-            await axios.put(`http://localhost:4000/api/v1/booking/updateBookingConfirm/${booking._id}`, payload);
+            await axios.put(`https://www.api.onlyhumanity.co.uk/api/v1/booking/updateBookingConfirm/${booking._id}`, payload);
             const updatedBookings = bookings.map(b =>
                 b._id === booking._id ? { ...b, status: 'completed' } : b
             );

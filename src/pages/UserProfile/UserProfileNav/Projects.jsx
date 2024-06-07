@@ -16,7 +16,7 @@ const Projects = ({ userId }) => {
     const fetchProjects = async () => {
         try {
             axios.defaults.withCredentials = true;
-            const response = await axios.get(`http://localhost:4000/api/v1/user/getProjects/${userId}`);
+            const response = await axios.get(`https://www.api.onlyhumanity.co.uk/api/v1/user/getProjects/${userId}`);
             const data = response.data;
             setProjects(data.projects); // Update state with fetched projects
         } catch (error) {

@@ -57,7 +57,7 @@ const SendTips = () => {
 
             console.log('[PaymentMethod]', paymentMethod);
 
-            const response = await axios.post('http://localhost:4000/api/v1/payment/send-tip', {
+            const response = await axios.post('https://www.api.onlyhumanity.co.uk/api/v1/payment/send-tip', {
                 paymentMethodId: paymentMethod.id,
                 amount: tipAmount * 100, // Stripe amount is in cents
                 notes: tipNotes,

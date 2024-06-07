@@ -14,7 +14,7 @@ const UserRecentPosts = () => {
     useEffect(() => {
         const getUsersPosts = async () => {
             try {
-                const res = await axios.get(`http://localhost:4000/api/v1/posts/getPosts/${userId}`);
+                const res = await axios.get(`https://www.api.onlyhumanity.co.uk/api/v1/posts/getPosts/${userId}`);
                 // console.log(res.data);
                 setPosts(res.data.posts);
             } catch (error) {

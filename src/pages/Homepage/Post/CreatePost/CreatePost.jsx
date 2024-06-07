@@ -44,7 +44,7 @@ const CreatePost = () => {
 
             // Simulate API request delay
             axios.defaults.withCredentials = true;
-            const response = await axios.post('http://localhost:4000/api/forumPosts/createPost', postData);
+            const response = await axios.post('https://www.api.onlyhumanity.co.uk/api/forumPosts/createPost', postData);
             if (response.data.success) {
                 message.success('Post created successfully!');
                 form.resetFields();

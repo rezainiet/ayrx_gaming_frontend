@@ -59,7 +59,7 @@ const Dashboard = () => {
         const fetchTransactions = async () => {
             try {
                 axios.defaults.withCredentials = true;
-                const response = await axios.get('http://localhost:4000/api/v1/payment/transactions', { withCredentials: true });
+                const response = await axios.get('https://www.api.onlyhumanity.co.uk/api/v1/payment/transactions', { withCredentials: true });
                 setPaymentHistoryData(response.data);
             } catch (error) {
                 notification.error({

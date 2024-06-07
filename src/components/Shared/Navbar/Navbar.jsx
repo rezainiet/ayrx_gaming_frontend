@@ -45,7 +45,7 @@ const Navbar = () => {
 
     const handleLogout = async () => {
         try {
-            const res = await axios.get(`http://localhost:4000/api/v1/user/logout`);
+            const res = await axios.get(`https://www.api.onlyhumanity.co.uk/api/v1/user/logout`);
             message.success('Logout successful.');
             dispatch(setSelectedUser(null));
             dispatch(setOtherUsers(null));

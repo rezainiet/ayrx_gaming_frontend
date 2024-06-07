@@ -4,8 +4,8 @@ import io from 'socket.io-client';
 let socket;
 
 export const initializeSocket = (userId) => {
-    // socket = io('http://localhost:4000', {
-    socket = io('http://localhost:4000', {
+    // socket = io('https://www.api.onlyhumanity.co.uk', {
+    socket = io('https://www.api.onlyhumanity.co.uk', {
         transports: ['websocket'],
         withCredentials: true,
         query: { userId },

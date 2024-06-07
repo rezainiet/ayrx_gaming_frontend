@@ -10,7 +10,7 @@ const useGetMessages = () => {
         const fetchMessages = async () => {
             try {
                 axios.defaults.withCredentials = true;
-                const res = await axios.get(`http://localhost:4000/api/v1/message/${selectedUser?._id}`);
+                const res = await axios.get(`https://www.api.onlyhumanity.co.uk/api/v1/message/${selectedUser?._id}`);
                 dispatch(setMessages(res.data));
             } catch (error) {
                 dispatch(setMessages(null))

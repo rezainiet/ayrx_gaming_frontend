@@ -10,7 +10,7 @@ const useFriendRequest = (
     const sendFriendRequest = async (userId) => {
         try {
             axios.defaults.withCredentials = true;
-            await axios.post(`http://localhost:4000/api/v1/user/sendFriendRequest`, { userId });
+            await axios.post(`https://www.api.onlyhumanity.co.uk/api/v1/user/sendFriendRequest`, { userId });
             setIsSentRequest(true);
             localSetIsSentRequest(true);
         } catch (error) {
@@ -21,7 +21,7 @@ const useFriendRequest = (
     const cancelFriendRequest = async (userId) => {
         try {
             axios.defaults.withCredentials = true;
-            await axios.post(`http://localhost:4000/api/v1/user/cancelFriendRequest`, { userId });
+            await axios.post(`https://www.api.onlyhumanity.co.uk/api/v1/user/cancelFriendRequest`, { userId });
             setIsSentRequest(false);
             localSetIsSentRequest(false);
         } catch (error) {
@@ -32,7 +32,7 @@ const useFriendRequest = (
     const acceptFriendRequest = async (userId) => {
         try {
             axios.defaults.withCredentials = true;
-            await axios.post(`http://localhost:4000/api/v1/user/acceptFriendRequest`, { userId });
+            await axios.post(`https://www.api.onlyhumanity.co.uk/api/v1/user/acceptFriendRequest`, { userId });
             setIsReceivedRequest(false);
             localSetIsReceivedRequest(false);
             setIsSentRequest(false);
@@ -45,7 +45,7 @@ const useFriendRequest = (
     const blockUser = async (userId) => {
         try {
             axios.defaults.withCredentials = true;
-            await axios.post(`http://localhost:4000/api/v1/user/blockUser`, { userId });
+            await axios.post(`https://www.api.onlyhumanity.co.uk/api/v1/user/blockUser`, { userId });
             setIsBlocked(true);
         } catch (error) {
             console.error("Error blocking user:", error);
@@ -55,7 +55,7 @@ const useFriendRequest = (
     const unBlockUser = async (userId) => {
         try {
             axios.defaults.withCredentials = true;
-            await axios.post(`http://localhost:4000/api/v1/user/unBlockUser`, { userId });
+            await axios.post(`https://www.api.onlyhumanity.co.uk/api/v1/user/unBlockUser`, { userId });
             setIsBlocked(false);
         } catch (error) {
             console.error("Error unblocking user:", error);

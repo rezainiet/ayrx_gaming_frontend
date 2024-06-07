@@ -33,7 +33,7 @@ const UserRecentPost = ({ item, authUser }) => {
     const handleMainCommentSubmit = async (postId) => {
         try {
             // Assuming you have an API endpoint to post comments
-            const response = await axios.put(`http://localhost:4000/api/v1/posts/${postId}/createComment`, {
+            const response = await axios.put(`https://www.api.onlyhumanity.co.uk/api/v1/posts/${postId}/createComment`, {
                 userId: authUser?._id,
                 text: mainComment
             });

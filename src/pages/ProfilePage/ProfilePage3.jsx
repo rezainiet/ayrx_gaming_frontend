@@ -24,7 +24,7 @@ const Profile = () => {
         const fetchUserData = async () => {
             try {
                 axios.defaults.withCredentials = true;
-                const res = await axios.get('http://localhost:4000/api/v1/user/getUserDetails');
+                const res = await axios.get('https://www.api.onlyhumanity.co.uk/api/v1/user/getUserDetails');
                 setUser(res.data.user); // Assuming the user data is in res.data.user
                 setLoading(false);
             } catch (error) {
@@ -42,7 +42,7 @@ const Profile = () => {
 
     const handleOk = async (updatedUser) => {
         try {
-            const res = await axios.put('http://localhost:4000/api/v1/user/updateUserDetails', updatedUser);
+            const res = await axios.put('https://www.api.onlyhumanity.co.uk/api/v1/user/updateUserDetails', updatedUser);
             setUser(res.data.user); // Assuming the updated user data is in res.data.user
             setIsModalVisible(false);
         } catch (error) {

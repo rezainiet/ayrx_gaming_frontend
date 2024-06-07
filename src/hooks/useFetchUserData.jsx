@@ -9,7 +9,7 @@ const useFetchUserData = (userId) => {
         const fetchUserData = async () => {
             try {
                 axios.defaults.withCredentials = true;
-                const res = await axios.get(`http://localhost:4000/api/v1/user/getUserDataById/${userId}`);
+                const res = await axios.get(`https://www.api.onlyhumanity.co.uk/api/v1/user/getUserDataById/${userId}`);
                 const { user: userData, authUserId } = res.data;
 
                 console.log("Fetched user data:", userData);
