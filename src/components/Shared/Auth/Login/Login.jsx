@@ -22,7 +22,7 @@ const Login = () => {
         // console.log('Submitted')
         try {
             const user = { userName, password };
-            const res = await axios.post(`https://www.api.onlyhumanity.co.uk/api/v1/user/login`, user, {
+            const res = await axios.post(`${import.meta.env.VITE_API_URI}/api/v1/user/login`, user, {
                 headers: {
                     'Content-Type': 'application/json'
                 },

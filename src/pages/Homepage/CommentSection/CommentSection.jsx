@@ -26,7 +26,7 @@ const CommentSection = ({ comments, postId }) => {
             setCommentContent('');
             comments.push(newComment);
 
-            const response = await axios.post(`https://www.api.onlyhumanity.co.uk/api/forumComments/${postId}/comments`, {
+            const response = await axios.post(`${import.meta.env.VITE_API_URI}/api/forumComments/${postId}/comments`, {
                 content: commentContent,
                 user: authUser._id
             });

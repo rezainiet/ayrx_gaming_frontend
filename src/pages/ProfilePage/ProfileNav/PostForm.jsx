@@ -20,7 +20,7 @@ const PostForm = () => {
                 imageUrl
             };
 
-            const response = await axios.post('https://www.api.onlyhumanity.co.uk/api/v1/posts/createPost', postData);
+            const response = await axios.post(`${import.meta.env.VITE_API_URI}/api/v1/posts/createPost`, postData);
             message.success('Post created successfully!');
             form.resetFields();
             setImageUrl(null);

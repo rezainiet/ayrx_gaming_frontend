@@ -18,7 +18,7 @@ const SideBar = () => {
 
     const handleLogout = async () => {
         try {
-            const res = await axios.get(`https://www.api.onlyhumanity.co.uk/api/v1/user/logout`);
+            const res = await axios.get(`${import.meta.env.VITE_API_URI}/api/v1/user/logout`);
             message.success('Logout successful.');
             dispatch(setSelectedUser(null));
             dispatch(setOtherUsers(null));

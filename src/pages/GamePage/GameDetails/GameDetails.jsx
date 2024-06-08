@@ -17,7 +17,7 @@ const GameDetails = () => {
         const getGame = async (id) => {
             try {
                 axios.defaults.withCredentials = true;
-                const res = await axios.get(`https://www.api.onlyhumanity.co.uk/api/v1/games/getGames/${id}`);
+                const res = await axios.get(`${import.meta.env.VITE_API_URI}/api/v1/games/getGames/${id}`);
                 if (res.data) {
                     setGame(res.data);
                 } else {

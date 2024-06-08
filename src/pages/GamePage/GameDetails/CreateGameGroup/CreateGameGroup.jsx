@@ -11,7 +11,7 @@ const CreateGameGroup = ({ gameId }) => {
 
     const handleCreateGroup = async (values) => {
         try {
-            const response = await axios.post('https://www.api.onlyhumanity.co.uk/api/v1/groups/create', {
+            const response = await axios.post(`${import.meta.env.VITE_API_URI}/api/v1/groups/create`, {
                 title: values.title,
                 description: values.description,
                 coverPhoto: values.coverPhoto,

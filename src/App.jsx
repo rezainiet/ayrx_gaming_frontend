@@ -32,7 +32,7 @@ function App() {
     let newSocket;
     if (authUser) {
       // newSocket = io('https://www.api.onlyhumanity.co.uk', {
-      newSocket = io('https://www.api.onlyhumanity.co.uk', {
+      newSocket = io(import.meta.env.VITE_API_URI, {
         transports: ['websocket'],
         withCredentials: true,
         query: {

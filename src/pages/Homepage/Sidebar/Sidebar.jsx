@@ -10,7 +10,7 @@ const Sidebar = () => {
         // Fetch random user data from the API
         const fetchRandomUsers = async () => {
             try {
-                const response = await fetch('https://www.api.onlyhumanity.co.uk/api/v1/user/getRandomUser');
+                const response = await fetch(`${import.meta.env.VITE_API_URI}/api/v1/user/getRandomUser`);
                 const data = await response.json();
                 setRandomUsers(data);
             } catch (error) {

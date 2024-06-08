@@ -10,7 +10,7 @@ const Feed = () => {
     useEffect(() => {
         const fetchForumPosts = async () => {
             try {
-                const response = await axios.get('https://www.api.onlyhumanity.co.uk/api/forumPosts/getPost');
+                const response = await axios.get(`${import.meta.env.VITE_API_URI}/api/forumPosts/getPost`);
                 // Initialize showComments property for each post
                 const postsWithShowComments = response.data.map(post => ({ ...post, showComments: false }));
                 setFeedData(postsWithShowComments);

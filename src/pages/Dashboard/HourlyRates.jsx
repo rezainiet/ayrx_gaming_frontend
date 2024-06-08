@@ -15,7 +15,7 @@ const HourlyRates = () => {
             setLoading(true);
             try {
                 axios.defaults.withCredentials = true;
-                const response = await axios.get('https://www.api.onlyhumanity.co.uk/api/v1/user/getUserDetails'); // Adjust the endpoint as necessary
+                const response = await axios.get(`${import.meta.env.VITE_API_URI}/api/v1/user/getUserDetails`); // Adjust the endpoint as necessary
                 const fetchedRate = response.data;
                 if (fetchedRate.user.hourlyRate) {
                     setHourlyRate(fetchedRate.user?.hourlyRate);
@@ -60,7 +60,7 @@ const HourlyRates = () => {
         setLoading(true);
         try {
             axios.defaults.withCredentials = true;
-            await axios.put('https://www.api.onlyhumanity.co.uk/api/v1/user/updateHourlyRate', { hourlyRate: newRate }); // Adjust the endpoint as necessary
+            await axios.put(`${import.meta.env.VITE_API_URI}/api/v1/user/updateHourlyRate`, { hourlyRate: newRate }); // Adjust the endpoint as necessary
             setHourlyRate(newRate);
             notification.success({
                 message: 'Rate Updated',

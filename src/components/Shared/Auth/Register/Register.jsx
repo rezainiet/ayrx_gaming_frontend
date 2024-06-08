@@ -22,7 +22,7 @@ const Register = () => {
         // console.log('User Data:', userData);
 
         try {
-            const res = await axios.post(`https://www.api.onlyhumanity.co.uk/api/v1/user/register`, userData, {
+            const res = await axios.post(`${import.meta.env.VITE_API_URI}/api/v1/user/register`, userData, {
                 headers: {
                     'Content-Type': 'application/json'
                 },

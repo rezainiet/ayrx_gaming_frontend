@@ -23,7 +23,7 @@ const SearchResults = () => {
             setError(null);
             try {
                 axios.defaults.withCredentials = true;
-                const response = await axios.get(`https://www.api.onlyhumanity.co.uk/api/v1/user/search?query=${query}`);
+                const response = await axios.get(`${import.meta.env.VITE_API_URI}/api/v1/user/search?query=${query}`);
                 setResults(response.data);
             } catch (err) {
                 setError('Failed to fetch search results');

@@ -28,7 +28,7 @@ const GameGroup = () => {
         const fetchUserData = async () => {
             try {
                 axios.defaults.withCredentials = true;
-                const res = await axios.get('https://www.api.onlyhumanity.co.uk/api/v1/user/getUserDetails');
+                const res = await axios.get(`${import.meta.env.VITE_API_URI}/api/v1/user/getUserDetails`);
                 setUser(res.data.user); // Assuming the user data is in res.data.user
                 setLoading(false);
             } catch (error) {
@@ -44,7 +44,7 @@ const GameGroup = () => {
         const fetchGroup = async () => {
             try {
                 axios.defaults.withCredentials = true;
-                const response = await axios.get(`https://www.api.onlyhumanity.co.uk/api/v1/groups/getGroup/${groupId}`);
+                const response = await axios.get(`${import.meta.env.VITE_API_URI}/api/v1/groups/getGroup/${groupId}`);
                 setGroup(response.data);
 
                 // Check if the current user is a member of the group
@@ -68,13 +68,13 @@ const GameGroup = () => {
             axios.defaults.withCredentials = true;
             if (joined) {
                 // Leave group
-                await axios.post(`https://www.api.onlyhumanity.co.uk/api/v1/groups/${groupId}/leave`, {
+                await axios.post(`${import.meta.env.VITE_API_URI}/api/v1/groups/${groupId}/leave`, {
                     userId: authUser._id
                 });
                 setJoined(false);
             } else {
                 // Join group
-                await axios.post(`https://www.api.onlyhumanity.co.uk/api/v1/groups/${groupId}/join`, {
+                await axios.post(`${import.meta.env.VITE_API_URI}/api/v1/groups/${groupId}/join`, {
                     userId: authUser._id
                 });
                 setJoined(true);
@@ -87,7 +87,7 @@ const GameGroup = () => {
     const handlePost = async () => {
         try {
             axios.defaults.withCredentials = true;
-            await axios.post(`https://www.api.onlyhumanity.co.uk/api/v1/posts/${groupId}/createPostInGroup`, {
+            await axios.post(`${import.meta.env.VITE_API_URI}/api/v1/posts/${groupId}/createPostInGroup`, {
                 content: newPost,
                 authorId: authUser._id // Assuming you have the authUser object available
             });
@@ -148,7 +148,7 @@ const GameGroup = () => {
                 title: newGroupName || group.title,
                 coverPhoto: newCoverPhoto || group.coverPhoto
             };
-            const response = await axios.put(`https://www.api.onlyhumanity.co.uk/api/v1/groups/${groupId}/update`, updatedGroup);
+            const response = await axios.put(`${import.meta.env.VITE_API_URI}/api/v1/groups/${groupId}/update`, updatedGroup);
             setGroup(response.data);
             setIsModalOpen(false);
             message.success('Group updated successfully');

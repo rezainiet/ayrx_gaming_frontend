@@ -5,7 +5,7 @@ let socket;
 
 export const initializeSocket = (userId) => {
     // socket = io('https://www.api.onlyhumanity.co.uk', {
-    socket = io('https://www.api.onlyhumanity.co.uk', {
+    socket = io(`${import.meta.env.VITE_API_URI}`, {
         transports: ['websocket'],
         withCredentials: true,
         query: { userId },

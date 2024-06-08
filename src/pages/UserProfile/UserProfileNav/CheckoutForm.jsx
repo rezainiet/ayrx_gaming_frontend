@@ -32,7 +32,7 @@ const CheckoutForm = ({ project }) => {
 
         try {
             // Create a payment intent on the server
-            const response = await axios.post('https://www.api.onlyhumanity.co.uk/api/v1/payment/payment_intent', {
+            const response = await axios.post(`${import.meta.env.VITE_API_URI}/api/v1/payment/payment_intent`, {
                 amount: project.price * 100, // Amount in cents
                 email: values.email, // Use form input value for email
                 paymentAddress: values.paymentAddress, // Use form input value for payment address

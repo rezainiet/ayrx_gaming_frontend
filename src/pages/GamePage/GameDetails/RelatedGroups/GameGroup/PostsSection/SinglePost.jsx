@@ -41,7 +41,7 @@ const SinglePost = ({ item, authUser }) => {
     const handleReplySubmit = async (commentId) => {
         try {
             axios.defaults.withCredentials = true;
-            const response = await axios.post(`https://www.api.onlyhumanity.co.uk/api/v1/posts/${item._id}/comments/${commentId}/reply`, {
+            const response = await axios.post(`${import.meta.env.VITE_API_URI}/api/v1/posts/${item._id}/comments/${commentId}/reply`, {
                 userId: authUser?._id,
                 text: replyContent
             });
@@ -60,7 +60,7 @@ const SinglePost = ({ item, authUser }) => {
     const handleMainCommentSubmit = async (postId) => {
         try {
             axios.defaults.withCredentials = true;
-            const response = await axios.post(`https://www.api.onlyhumanity.co.uk/api/v1/comment/createCommentInGameGroup`, {
+            const response = await axios.post(`${import.meta.env.VITE_API_URI}/api/v1/comment/createCommentInGameGroup`, {
                 authorId: authUser?._id,
                 content: mainComment,
                 postId: postId
@@ -100,7 +100,7 @@ const SinglePost = ({ item, authUser }) => {
             localStorage.setItem(`liked_${postId}`, !isLiked);
 
             // Send the like request to the server
-            const response = await axios.post(`https://www.api.onlyhumanity.co.uk/api/v1/posts/${postId}/like`, {
+            const response = await axios.post(`${import.meta.env.VITE_API_URI}/api/v1/posts/${postId}/like`, {
                 userId: authUser?._id
             });
             // console.log("Post liked:", response.data);
