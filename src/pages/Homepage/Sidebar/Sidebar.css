@@ -1,0 +1,28 @@
+/* src/components/Sidebar.css */
+.add-friend-button-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.add-friend-button {
+    transition: transform 0.3s;
+}
+
+.add-friend-text {
+    opacity: 0;
+    margin-left: 0.1rem;
+    color: white;
+    cursor: pointer;
+    transition: opacity 0.3s, transform 0.3s;
+    transform: translateX(-10px);
+}
+
+.add-friend-button-wrapper:hover .add-friend-button {
+    transform: translateX(-10px);
+}
+
+.add-friend-button-wrapper:hover .add-friend-text {
+    opacity: 1;
+    transform: translateX(0);
+}

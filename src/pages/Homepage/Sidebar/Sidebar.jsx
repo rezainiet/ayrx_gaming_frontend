@@ -1,6 +1,8 @@
+// src/components/Sidebar.js
 import React, { useState, useEffect } from 'react';
-import { Card, Avatar, Button } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Card, Avatar, Button, Divider } from 'antd';
+import { PlusOutlined, UserOutlined } from '@ant-design/icons';
+import './Sidebar.css'; // Import the CSS file
 
 const Sidebar = () => {
     // State to store user data
@@ -27,30 +29,30 @@ const Sidebar = () => {
         console.log(`Added user with ID ${userId} to friends.`);
     };
 
-
-
-
     return (
-        <Card className="mb-4 shadow-md rounded-lg">
-            <div className="p-4">
-                <h3 className="text-lg font-semibold mb-4">People you may know!</h3>
+        <Card className="mb-4 shadow-lg rounded-lg backdrop-filter backdrop-blur-lg bg-white bg-opacity-50">
+            <div className="sm:p-0 md:p-6">
+                <h3 className="text-xl font-bold mb-4 text-gray-900">People you may know!</h3>
+                <Divider className="bg-gray-200" />
                 {randomUsers.map(user => (
-                    <div key={user._id} className="flex items-center justify-between mb-4">
+                    <div key={user._id} className="flex items-center justify-between mb-4 p-3 transition-transform transform hover:scale-105 rounded-lg bg-gradient-to-r from-purple-400 to-blue-400 shadow-md">
                         <div className="flex items-center">
-                            <Avatar src={user.profilePhoto} size={48} className="mr-3" />
+                            <Avatar src={user.profilePhoto} size={48} icon={<UserOutlined />} className="mr-3" />
                             <div>
-                                <h4 className="text-base font-semibold">{user.fullName}</h4>
-                                <p className="text-sm text-gray-500">{user.userTitle}</p>
+                                <h4 className="text-lg font-medium text-white">{user.fullName}</h4>
+                                <p className="text-sm text-gray-200">{user.userTitle}</p>
                             </div>
                         </div>
-                        <Button
-                            type="primary"
-                            icon={<PlusOutlined />}
-                            size="small"
-                            onClick={() => handleAddFriend(user._id)}
-                        >
-                            Add Friend
-                        </Button>
+                        <div className="add-friend-button-wrapper wi">
+                            <Button
+                                type="primary"
+                                shape="circle"
+                                icon={<PlusOutlined />}
+                                onClick={() => handleAddFriend(user._id)}
+                                className="add-friend-button"
+                            />
+                            <span className="add-friend-text">Add Friend</span>
+                        </div>
                     </div>
                 ))}
             </div>

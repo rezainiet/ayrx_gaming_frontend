@@ -13,14 +13,14 @@ const Post = ({ post, onCommentClick }) => {
         try {
             if (liked) {
                 // User already liked the post, so remove their like
-                const response = await axios.delete(`${import.meta.env.VITE_API_URI}/api/forumPosts/${post._id}/like/${authUser._id}`);
+                const response = await axios.delete(`${import.meta.env.VITE_API_URI}/api/forumPosts/${post?._id}/like/${authUser._id}`);
                 console.log(response.data);
                 // Update liked state to false
                 setLiked(false);
             } else {
                 // User has not liked the post, so add their like
-                const response = await axios.post(`${import.meta.env.VITE_API_URI}/api/forumPosts/${post._id}/like`, {
-                    userId: authUser._id
+                const response = await axios.post(`${import.meta.env.VITE_API_URI}/api/forumPosts/${post?._id}/like`, {
+                    userId: authUser?._id
                 });
                 console.log(response.data);
                 // Update liked state to true
