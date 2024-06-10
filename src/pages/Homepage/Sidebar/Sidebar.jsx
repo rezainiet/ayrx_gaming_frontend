@@ -3,8 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { Card, Avatar, Button, Divider } from 'antd';
 import { PlusOutlined, UserOutlined } from '@ant-design/icons';
 import './Sidebar.css'; // Import the CSS file
+import { useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
+    const navigate = useNavigate();
     // State to store user data
     const [randomUsers, setRandomUsers] = useState([]);
 
@@ -26,7 +28,8 @@ const Sidebar = () => {
     // Function to handle adding a user to friends
     const handleAddFriend = (userId) => {
         // Implement functionality to add user to friends list
-        console.log(`Added user with ID ${userId} to friends.`);
+        // console.log(`Added user with ID ${userId} to friends.`);
+        navigate(`/profile/${userId}`)
     };
 
     return (
@@ -51,7 +54,7 @@ const Sidebar = () => {
                                 onClick={() => handleAddFriend(user._id)}
                                 className="add-friend-button"
                             />
-                            <span className="add-friend-text">Add Friend</span>
+                            <span className="add-friend-text">View Profile</span>
                         </div>
                     </div>
                 ))}
