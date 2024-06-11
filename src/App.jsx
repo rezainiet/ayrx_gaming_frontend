@@ -22,6 +22,8 @@ import GameGroup from './pages/GamePage/GameDetails/RelatedGroups/GameGroup/Game
 import UserProfile from './pages/UserProfile/UserProfile';
 import SearchResults from './pages/SearchResults/SearchResults';
 import ProjectDetails from './pages/UserProfile/UserProfileNav/ProjectDetails';
+import Terms from './components/Terms/Terms';
+import AppFooter from './components/Footer/Footer';
 
 function App() {
   const { authUser } = useSelector(store => store.user);
@@ -75,15 +77,17 @@ function App() {
           <Route path='/dashboard' element={<RequireAuth><Dashboard /></RequireAuth>} />
           <Route path='/games' element={<GamePage />} />
           <Route path="/search" element={<SearchResults />} />
+          <Route path="/terms-and-condition" element={<Terms />} />
           <Route path='/game/:id' element={<GameDetails />} />
           <Route path='/session-based-project/:id' element={<ProjectDetails />} />
           <Route path='/profile/:userId' element={<RequireAuth><UserProfile /></RequireAuth>} />
-          <Route path='/game/groups/:groupId' element={<RequireAuth><GameGroup /></RequireAuth>} />
+          <Route path='/game/groups/:groupId' element={<GameGroup />} />
           <Route path='/profile' element={<RequireAuth><ProfilePage3 /></RequireAuth>} />
           <Route path='/chat' element={<RequireAuth><Chat /></RequireAuth>} />
           <Route exact path='/profile2' element={<ProfilePage2 />} />
         </Routes>
       </div>
+      <AppFooter />
     </div>
   );
 }

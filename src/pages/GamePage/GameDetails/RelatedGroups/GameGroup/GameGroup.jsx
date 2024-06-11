@@ -58,9 +58,7 @@ const GameGroup = () => {
             }
         };
 
-        if (authUser) {
-            fetchGroup();
-        }
+        fetchGroup();
     }, [groupId, authUser]);
 
     const handleJoinLeave = async () => {
@@ -178,24 +176,26 @@ const GameGroup = () => {
                         <Text className="font-poppins text-sm text-gray-500">Author: {group.author.fullName}</Text>
                     </div>
                 </div>
-                <div className="flex items-center">
-                    <Button
-                        type={joined ? "default" : "primary"}
-                        onClick={handleJoinLeave}
-                        className="mt-4 md:mt-0 md:ml-auto"
-                    >
-                        {joined ? "Leave Group" : "Join Group"}
-                    </Button>
-                    {authUser && authUser._id === group.author._id && (
+                {authUser && (
+                    <div className="flex items-center">
                         <Button
-                            type="default"
-                            onClick={() => setIsModalOpen(true)}
-                            className="ml-2"
+                            type={joined ? "default" : "primary"}
+                            onClick={handleJoinLeave}
+                            className="mt-4 md:mt-0 md:ml-auto"
                         >
-                            Edit Group
+                            {joined ? "Leave Group" : "Join Group"}
                         </Button>
-                    )}
-                </div>
+                        {authUser._id === group.author._id && (
+                            <Button
+                                type="default"
+                                onClick={() => setIsModalOpen(true)}
+                                className="ml-2"
+                            >
+                                Edit Group
+                            </Button>
+                        )}
+                    </div>
+                )}
             </div>
 
             {/* Modal for updating group */}
@@ -226,16 +226,18 @@ const GameGroup = () => {
             </div>
 
             {/* New Post */}
-            <CreatePost
-                joined={joined}
-                Title={Title}
-                Paragraph={Paragraph}
-                TextArea={TextArea}
-                Button={Button}
-                newPost={newPost}
-                setNewPost={setNewPost}
-                handlePost={handlePost}
-            />
+            {joined && (
+                <CreatePost
+                    joined={joined}
+                    Title={Title}
+                    Paragraph={Paragraph}
+                    TextArea={TextArea}
+                    Button={Button}
+                    newPost={newPost}
+                    setNewPost={setNewPost}
+                    handlePost={handlePost}
+                />
+            )}
 
             {/* Posts */}
             <PostsSection

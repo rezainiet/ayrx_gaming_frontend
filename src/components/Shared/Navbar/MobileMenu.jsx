@@ -15,11 +15,8 @@ const MobileMenu = ({ authUser, current, handleClick, handleLogout }) => {
                 <Menu.Item key="games" icon={<HomeOutlined />}>
                     <Link to="/games">Games</Link>
                 </Menu.Item>
-                <Menu.Item key="about" icon={<InfoCircleOutlined />}>
-                    About Us
-                </Menu.Item>
-                <Menu.Item key="contact" icon={<MailOutlined />}>
-                    Contact Us
+                <Menu.Item key="terms" icon={<HomeOutlined />}>
+                    <Link to="/terms-and-condition">Terms & Conditions</Link>
                 </Menu.Item>
                 {authUser ? (
                     <>

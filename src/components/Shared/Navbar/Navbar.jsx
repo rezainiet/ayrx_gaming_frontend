@@ -62,7 +62,7 @@ const Navbar = () => {
         <Header className="navbar-header">
             <div className="container">
                 <div className="logo">
-                    <Link to="/">Onlyhumanity</Link>
+                    <Link to="/">OnlyHumanity</Link>
                 </div>
                 <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} handleSearch={handleSearch} />
                 <div className="menu-section">

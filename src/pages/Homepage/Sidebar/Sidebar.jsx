@@ -1,7 +1,7 @@
 // src/components/Sidebar.js
 import React, { useState, useEffect } from 'react';
 import { Card, Avatar, Button, Divider } from 'antd';
-import { PlusOutlined, UserOutlined } from '@ant-design/icons';
+import { DoubleRightOutlined, UserOutlined } from '@ant-design/icons';
 import './Sidebar.css'; // Import the CSS file
 import { useNavigate } from 'react-router-dom';
 
@@ -46,12 +46,13 @@ const Sidebar = () => {
                                 <p className="text-sm text-gray-200">{user.userTitle}</p>
                             </div>
                         </div>
-                        <div className="add-friend-button-wrapper wi">
+                        <div
+                            onClick={() => handleAddFriend(user._id)}
+                            className="add-friend-button-wrapper wi">
                             <Button
                                 type="primary"
                                 shape="circle"
-                                icon={<PlusOutlined />}
-                                onClick={() => handleAddFriend(user._id)}
+                                icon={<DoubleRightOutlined />}
                                 className="add-friend-button"
                             />
                             <span className="add-friend-text">View Profile</span>
