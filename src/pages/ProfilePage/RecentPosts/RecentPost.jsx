@@ -75,7 +75,7 @@ const RecentPost = ({ item, authUser }) => {
                 <div className="flex flex-col sm:flex-row justify-between items-center ">
                     <div className="flex items-center justify-center sm:justify-start space-y-2 sm:space-y-0 sm:space-x-4">
                         <Button icon={<HeartOutlined />} type="text">
-                            Like ({item?.likes})
+                            Likes ({item?.likes})
                         </Button>
                         <Button icon={<CommentOutlined />} type="text" onClick={() => handleCommentClick(item._id)}>
                             Comment ({comments.length})

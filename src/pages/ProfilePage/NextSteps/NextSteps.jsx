@@ -17,28 +17,6 @@ const NextSteps = () => {
         setIsModalVisible(true);
     };
 
-    const handleOk = () => {
-        // Custom logic goes here
-        message.success('Your booking has been confirmed.');
-        setIsModalVisible(false);
-    };
-
-    const handleCancel = () => {
-        setIsModalVisible(false);
-    };
-
-    const onDateChange = (dates) => {
-        setDates(dates);
-    };
-
-    const onStartTimeChange = (time) => {
-        setStartTime(time);
-    };
-
-    const onEndTimeChange = (time) => {
-        setEndTime(time);
-    };
-
     return (
         <Card title="Recent Transactions">
             <div style={{ marginBottom: '16px' }}>
@@ -51,20 +29,7 @@ const NextSteps = () => {
                 </Button>
                 <Button size='medium' type="primary" icon={<SketchCircleFilled />}>Get Tips</Button>
             </div>
-            <Modal
-                title="Book Your Appointment"
-                visible={isModalVisible}
-                onOk={handleOk}
-                onCancel={handleCancel}
-                okText="Confirm Booking"
-                cancelText="Cancel"
-            >
-                <Space direction="vertical" style={{ width: '100%' }} size="large">
-                    <RangePicker style={{ width: '100%' }} onChange={onDateChange} />
-                    <TimePicker style={{ width: '100%' }} onChange={onStartTimeChange} placeholder="Start Time" format="HH:mm" />
-                    <TimePicker style={{ width: '100%' }} onChange={onEndTimeChange} placeholder="End Time" format="HH:mm" />
-                </Space>
-            </Modal>
+
         </Card>
     );
 }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Button, Modal, DatePicker, TimePicker, Space, message, Alert, Input } from 'antd';
+import { Button, Modal, DatePicker, TimePicker, Space, message, Alert, Input, List } from 'antd';
 import { ScheduleFilled } from '@ant-design/icons';
 import React from 'react';
 import moment from 'moment';
@@ -17,26 +17,45 @@ const BookAppointment = () => {
     const [messageText, setMessageText] = useState('');
     const [error, setError] = useState(null);
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+    const [bookedAppointments, setBookedAppointments] = useState([]);
+    const [getVisitedUser, setVisitedUser] = useState({});
+    const [amount, setAmount] = useState(0);
+
+    useEffect(() => {
+        const fetchVisitedUserProfile = async () => {
+            const response = await axios.get(`${import.meta.env.VITE_API_URI}/api/v1/user/getUserDataById/${userId}`);
+            setVisitedUser(response.data.user);
+        };
+        fetchVisitedUserProfile();
+    }, [userId]);
+
+    useEffect(() => {
+        if (date) {
+            fetchBookedAppointments(date);
+        }
+    }, [date]);
 
     useEffect(() => {
         validateSchedule(date, startTime, endTime);
-    }, [date, startTime, endTime]);
+        calculateAmount(startTime, endTime, getVisitedUser.hourlyRate);
+    }, [date, startTime, endTime, getVisitedUser]);
 
     const showModal = () => {
         setIsModalVisible(true);
     };
 
     const handleOk = async () => {
-        if (isScheduleAvailable(date, startTime, endTime)) {
+        const isAvailable = await isScheduleAvailable(date, startTime, endTime);
+        if (isAvailable) {
             try {
                 const appointmentData = {
-                    buyer: authUser?._id, // Replace with actual buyer ID
-                    seller: userId, // Replace with actual seller ID
-                    amount: 100, // Replace with actual amount
+                    buyer: authUser?._id,
+                    seller: userId,
+                    amount: amount,
                     status: 'pending',
-                    date: date.format(),
-                    startTime: startTime.format(),
-                    endTime: endTime.format(),
+                    date: date.format('YYYY-MM-DD'),
+                    startTime: startTime.format('HH:mm'),
+                    endTime: endTime.format('HH:mm'),
                     message: messageText
                 };
 
@@ -45,6 +64,7 @@ const BookAppointment = () => {
                 setIsModalVisible(false);
             } catch (error) {
                 message.error('An error occurred while booking the appointment.');
+                console.error('Error booking appointment:', error);
             }
         } else {
             message.error('The selected time slot is already booked.');
@@ -71,10 +91,9 @@ const BookAppointment = () => {
         setMessageText(e.target.value);
     };
 
-    const isScheduleAvailable = (date, startTime, endTime) => {
-        if (!date || !startTime || !endTime) return false; // Consider as not available if any field is not filled
+    const isScheduleAvailable = async (date, startTime, endTime) => {
+        if (!date || !startTime || !endTime) return false;
 
-        // Adjust selected times to the same date
         const selectedStart = moment(date).set({
             hour: startTime.hour(),
             minute: startTime.minute()
@@ -84,20 +103,54 @@ const BookAppointment = () => {
             minute: endTime.minute()
         });
 
-        // You can remove the existingSchedules check and rely solely on the backend validation
-        return true;
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_API_URI}/api/v1/appointment/checkAvailability`, {
+                date: selectedStart.format('YYYY-MM-DD'),
+                startTime: selectedStart.format('HH:mm'),
+                endTime: selectedEnd.format('HH:mm'),
+                seller: userId
+            });
+            return response.data.isAvailable;
+        } catch (error) {
+            console.error('Error checking schedule availability:', error);
+            return false;
+        }
     };
 
-    const validateSchedule = (date, startTime, endTime) => {
+    const validateSchedule = async (date, startTime, endTime) => {
         if (!date || !startTime || !endTime) {
             setError(null);
             setIsButtonDisabled(true);
             return;
         }
 
-        const isValid = isScheduleAvailable(date, startTime, endTime);
+        const isValid = await isScheduleAvailable(date, startTime, endTime);
         setError(isValid ? null : 'The selected time slot is already booked.');
         setIsButtonDisabled(!isValid);
+    };
+
+    const fetchBookedAppointments = async (date) => {
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_API_URI}/api/v1/appointment/getBookedAppointments`, {
+                date: date.format('YYYY-MM-DD'),
+                seller: userId
+            });
+            setBookedAppointments(response.data.appointments);
+        } catch (error) {
+            console.error('Error fetching booked appointments:', error);
+        }
+    };
+
+    const calculateAmount = (startTime, endTime, hourlyRate) => {
+        if (!startTime || !endTime || !hourlyRate) {
+            setAmount(0);
+            return;
+        }
+
+        const duration = moment.duration(endTime.diff(startTime));
+        const hours = duration.asHours();
+        const calculatedAmount = hours * hourlyRate;
+        setAmount(calculatedAmount);
     };
 
     return (
@@ -115,6 +168,19 @@ const BookAppointment = () => {
                 okButtonProps={{ disabled: isButtonDisabled }}
             >
                 <Space direction="vertical" style={{ width: '100%' }} size="large">
+                    {bookedAppointments.length > 0 && (
+                        <List
+                            header={<div>Booked Appointments for This Day</div>}
+                            bordered
+                            className='text-blue-500'
+                            dataSource={bookedAppointments}
+                            renderItem={item => (
+                                <List.Item>
+                                    {`Start: ${moment(item.startTime).format('HH:mm')} - End: ${moment(item.endTime).format('HH:mm')}`}
+                                </List.Item>
+                            )}
+                        />
+                    )}
                     <DatePicker style={{ width: '100%' }} onChange={onDateChange} />
                     <TimePicker style={{ width: '100%' }} onChange={onStartTimeChange} placeholder="Start Time" format="HH:mm" />
                     <TimePicker style={{ width: '100%' }} onChange={onEndTimeChange} placeholder="End Time" format="HH:mm" />
@@ -125,6 +191,7 @@ const BookAppointment = () => {
                         onChange={onMessageChange}
                         value={messageText}
                     />
+                    <div>Amount: {amount ? `$${amount.toFixed(2)}` : 'N/A'}</div>
                     {error && <Alert message={error} type="error" showIcon />}
                 </Space>
             </Modal>

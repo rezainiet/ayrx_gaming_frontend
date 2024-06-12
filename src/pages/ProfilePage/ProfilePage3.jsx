@@ -76,8 +76,8 @@ const Profile = () => {
                                     <Avatar size={120} src={authUser?.profilePhoto} />
                                 </Col>
                                 <Col>
-                                    <Title level={2} className='font-poppins'>{user?.fullName || "userName"}</Title>
-                                    <Text type="secondary" className='font-poppins'>{user?.userTitle || "New User"}</Text>
+                                    <Title level={2} className='font-poppins'>{authUser?.fullName || "userName"}</Title>
+                                    <Text type="secondary" className='font-poppins'>{authUser?.userTitle || "New User"}</Text>
                                 </Col>
                                 <Col className="ml-auto">
                                     <Space>
@@ -99,7 +99,7 @@ const Profile = () => {
                                     </Card>
 
                                     {/* Next Steps */}
-                                    <NextSteps />
+                                    {/* <NextSteps /> */}
 
 
                                 </Col>

@@ -1,6 +1,7 @@
 import { Col, Menu, Row } from 'antd';
 import React, { useState } from 'react';
 import PostForm from './PostForm';
+import Expertise from './Expertise/Expertise';
 
 const ProfileNav = () => {
     const [currentSection, setCurrentSection] = useState('post');
@@ -14,7 +15,7 @@ const ProfileNav = () => {
             case 'post':
                 return <PostForm />;
             case 'expertise':
-                return <h1>Expertise section</h1>;
+                return <Expertise />;
             case 'booking':
                 return <h1>Booking Section</h1>;
             default:

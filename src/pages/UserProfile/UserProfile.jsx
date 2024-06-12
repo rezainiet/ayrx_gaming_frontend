@@ -1,7 +1,7 @@
 import { Layout, Row, Col, Avatar, Typography, Divider, Button, Card, Tag, Space } from 'antd';
 import { UserAddOutlined, UserDeleteOutlined, MessageOutlined, CheckCircleOutlined, StopOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import UserNextSteps from './UserNextSteps/UserNextSteps';
 import UserProfileNav from './UserProfileNav/UserProfileNav';
 import UserRecentPosts from './UserRecentPosts/UserRecentPosts';
@@ -13,14 +13,21 @@ const { Content } = Layout;
 const { Title, Text } = Typography;
 
 const UserProfile = () => {
-    const { userId } = useParams();
     const { authUser } = useSelector(store => store.user);
+    const { userId } = useParams();
+    const navigate = useNavigate();
     const { user, loading } = useFetchUserData(userId);
     const [isSentRequest, setIsSentRequest] = useState(undefined);
     const [isReceivedRequest, setIsReceivedRequest] = useState(undefined);
     const [isBlocked, setIsBlocked] = useState(undefined);
     const [isGotBlocked, setIsGotBlocked] = useState(undefined);
     const [isFriend, setIsFriend] = useState(undefined);
+
+    useEffect(() => {
+        if (authUser?._id === userId) {
+            navigate('/profile')
+        }
+    }, [authUser, userId])
 
     const { sendFriendRequest, cancelFriendRequest, acceptFriendRequest, blockUser, unBlockUser } = useFriendRequest(
         isSentRequest, isReceivedRequest, setIsSentRequest, setIsReceivedRequest, setIsBlocked, setIsFriend

@@ -14,8 +14,8 @@ const UserProfileNav = ({ userId }) => {
         switch (currentSection) {
             case 'project':
                 return <Projects userId={userId} />;
-            case 'expertise':
-                return <h1>Expertise section</h1>;
+            // case 'expertise':
+            //     return <h1>Expertise section</h1>;
             case 'booking':
                 return <h1>Booking Section</h1>;
             default:
@@ -34,7 +34,7 @@ const UserProfileNav = ({ userId }) => {
                     style={{ height: '100%', borderRight: 0 }}
                 >
                     <Menu.Item key="project">Project Based Sessions</Menu.Item>
-                    <Menu.Item key="expertise">Expertise</Menu.Item>
+                    {/* <Menu.Item key="expertise">Expertise</Menu.Item> */}
                     <Menu.Item key="booking">Booking</Menu.Item>
                 </Menu>
             </Col>

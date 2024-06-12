@@ -25,7 +25,9 @@ const Hint = ({ userRole }) => {
                     <li>Share your ideas and receive feedback</li>
                     <li>Connect with like-minded individuals</li>
                 </ul>
-                <div className="flex justify-between items-center">
+
+                {/* Optional */}
+                {/* <div className="flex justify-between items-center">
                     <a href="#" className="text-purple-700">Learn More</a>
                     <div className="flex space-x-2">
                         {userRole !== 'guest' && (
@@ -42,7 +44,7 @@ const Hint = ({ userRole }) => {
                             <Button type="text" icon={<ShareAltOutlined />} />
                         </Tooltip>
                     </div>
-                </div>
+                </div> */}
                 {userRole === 'admin' && (
                     <div className="mt-4">
                         <Button type="primary">Post New Content</Button>
