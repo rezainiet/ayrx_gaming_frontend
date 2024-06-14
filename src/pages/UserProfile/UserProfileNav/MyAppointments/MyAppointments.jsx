@@ -14,7 +14,7 @@ const MyAppointments = ({ userId }) => {
         const fetchAppointments = async () => {
             try {
                 setLoading(true);
-                const response = await fetch(`http://localhost:4000/api/v1/appointment/getUserAppointments?userId=${userId}`);
+                const response = await fetch(`${import.meta.env.VITE_API_URI}/api/v1/appointment/getUserAppointments?userId=${userId}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch appointments');
                 }
