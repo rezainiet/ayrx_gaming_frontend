@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Modal, DatePicker, TimePicker, Space, message, Alert, Input, List } from 'antd';
 import { ScheduleFilled } from '@ant-design/icons';
-import React from 'react';
 import moment from 'moment';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 
 const BookAppointment = () => {
     const { userId } = useParams();
@@ -20,6 +20,10 @@ const BookAppointment = () => {
     const [bookedAppointments, setBookedAppointments] = useState([]);
     const [getVisitedUser, setVisitedUser] = useState({});
     const [amount, setAmount] = useState(0);
+    const [clientSecret, setClientSecret] = useState('');
+
+    const stripe = useStripe();
+    const elements = useElements();
 
     useEffect(() => {
         const fetchVisitedUserProfile = async () => {
@@ -48,6 +52,39 @@ const BookAppointment = () => {
         const isAvailable = await isScheduleAvailable(date, startTime, endTime);
         if (isAvailable) {
             try {
+                const paymentIntentResponse = await axios.post(`${import.meta.env.VITE_API_URI}/api/v1/payment/create-payment-intent`, {
+                    amount: Math.round(amount * 100) // convert to cents
+                });
+
+                setClientSecret(paymentIntentResponse.data.clientSecret);
+                message.success('Payment intent created. Please confirm payment.');
+            } catch (error) {
+                message.error('An error occurred while creating the payment intent.');
+                console.error('Error creating payment intent:', error);
+            }
+        } else {
+            message.error('The selected time slot is already booked.');
+        }
+    };
+
+    const handlePayment = async () => {
+        if (!stripe || !elements || !clientSecret) {
+            return;
+        }
+
+        const cardElement = elements.getElement(CardElement);
+
+        const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: {
+                card: cardElement,
+            }
+        });
+
+        if (error) {
+            message.error('Payment failed.');
+            console.error('Payment error:', error);
+        } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+            try {
                 const appointmentData = {
                     buyer: authUser?._id,
                     seller: userId,
@@ -56,7 +93,8 @@ const BookAppointment = () => {
                     date: date.format('YYYY-MM-DD'),
                     startTime: startTime.format('HH:mm'),
                     endTime: endTime.format('HH:mm'),
-                    message: messageText
+                    message: messageText,
+                    clientSecret
                 };
 
                 const response = await axios.post(`${import.meta.env.VITE_API_URI}/api/v1/appointment/createAppointment`, appointmentData);
@@ -66,8 +104,6 @@ const BookAppointment = () => {
                 message.error('An error occurred while booking the appointment.');
                 console.error('Error booking appointment:', error);
             }
-        } else {
-            message.error('The selected time slot is already booked.');
         }
     };
 
@@ -163,9 +199,9 @@ const BookAppointment = () => {
                 open={isModalVisible}
                 onOk={handleOk}
                 onCancel={handleCancel}
-                okText="Confirm Booking"
+                okText="Create Payment Intent"
                 cancelText="Cancel"
-                okButtonProps={{ disabled: isButtonDisabled }}
+                okButtonProps={{ disabled: isButtonDisabled || clientSecret }}
             >
                 <Space direction="vertical" style={{ width: '100%' }} size="large">
                     {bookedAppointments.length > 0 && (
@@ -191,9 +227,13 @@ const BookAppointment = () => {
                         onChange={onMessageChange}
                         value={messageText}
                     />
+                    <CardElement />
                     <div>Amount: {amount ? `$${amount.toFixed(2)}` : 'N/A'}</div>
-                    {error && <Alert message={error} type="error" showIcon />}
+                    {error && <Alert message={error} type="error" className='' showIcon />}
                 </Space>
+                <Button type="primary" onClick={handlePayment} className='mt-2' disabled={!clientSecret}>
+                    Confirm Booking
+                </Button>
             </Modal>
         </>
     );

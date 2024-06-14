@@ -52,7 +52,7 @@ const ProjectBasedJob = () => {
                 <Form.Item name="name" label="Project Name" rules={[{ required: true, message: 'Please enter project name' }]}>
                     <Input />
                 </Form.Item>
-                <Form.Item name="coverPhoto" label="Cover Photo" rules={[{ required: true, message: 'Please upload a cover photo' }]}>
+                <Form.Item name="coverPhoto" label="Cover Photo" >
                     <Upload
                         beforeUpload={(file) => {
                             uploadImage(file);

@@ -2,6 +2,7 @@ import { Col, Menu, Row } from 'antd';
 import React, { useState } from 'react';
 import PostForm from '../../ProfilePage/ProfileNav/PostForm';
 import Projects from './Projects';
+import MyAppointments from './MyAppointments/MyAppointments';
 
 const UserProfileNav = ({ userId }) => {
     const [currentSection, setCurrentSection] = useState('project');
@@ -17,7 +18,7 @@ const UserProfileNav = ({ userId }) => {
             // case 'expertise':
             //     return <h1>Expertise section</h1>;
             case 'booking':
-                return <h1>Booking Section</h1>;
+                return <MyAppointments userId={userId} />;
             default:
                 return null;
         }
@@ -35,7 +36,7 @@ const UserProfileNav = ({ userId }) => {
                 >
                     <Menu.Item key="project">Project Based Sessions</Menu.Item>
                     {/* <Menu.Item key="expertise">Expertise</Menu.Item> */}
-                    <Menu.Item key="booking">Booking</Menu.Item>
+                    <Menu.Item key="booking">Upcoming Appointments</Menu.Item>
                 </Menu>
             </Col>
             <Col xs={24} lg={24}>
