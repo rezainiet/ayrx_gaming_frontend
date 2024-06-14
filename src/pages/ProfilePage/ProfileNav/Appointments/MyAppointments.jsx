@@ -20,7 +20,7 @@ const MyAppointments = () => {
             try {
                 setLoading(true);
                 axios.defaults.withCredentials = true;
-                const response = await axios.get(`http://localhost:4000/api/v1/appointment/getUserAppointments?userId=${authUser._id}`);
+                const response = await axios.get(`${import.meta.env.VITE_API_URI}/api/v1/appointment/getUserAppointments?userId=${authUser._id}`);
 
                 if (response.status !== 200) {
                     throw new Error('Failed to fetch appointments');

@@ -91,19 +91,19 @@ const Dashboard = () => {
                         />
                     </Col>
                 </Row>
-                <Row gutter={[16, 16]}>
+                <Row gutter={[16, 16]} className='flex items-center justify-center'>
                     <Col span={24}>
                         <BookingManagement />
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={12} xl={8}>
                         <MessagingSystem />
                     </Col>
-                    <Col xs={24} sm={24} md={12} lg={12} xl={8}>
+                    {/* <Col xs={24} sm={24} md={12} lg={12} xl={8}>
                         <ReviewManagement />
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={12} xl={8}>
                         <TipsManagement />
-                    </Col>
+                    </Col> */}
                 </Row>
             </Content>
         </Layout>

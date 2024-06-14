@@ -137,7 +137,7 @@ const BookingManagement = () => {
     );
 
     return (
-        <Card title="Booking Management">
+        <Card title="Services Management">
             <div style={{ marginBottom: '16px', textAlign: 'right' }}>
                 <Dropdown overlay={filterMenu}>
                     <Button>

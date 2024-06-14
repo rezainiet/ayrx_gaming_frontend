@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Statistic, Row, Col, Spin, Alert, Typography } from 'antd';
-import { DollarCircleOutlined, ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
+import { DollarCircleOutlined } from '@ant-design/icons';
 import axios from 'axios';
-import 'tailwindcss/tailwind.css';
 
 const { Title, Text } = Typography;
 
@@ -15,7 +14,7 @@ const EarningsOverview = () => {
         const fetchUserDetails = async () => {
             try {
                 axios.defaults.withCredentials = true;
-                const response = await axios.get('http://localhost:4000/api/v1/user/getUserDetails');
+                const response = await axios.get(`${import.meta.env.VITE_API_URI}/api/v1/user/getUserDetails`);
                 setMainBalance(response.data.user.balance);
             } catch (error) {
                 setError('Failed to fetch user details');

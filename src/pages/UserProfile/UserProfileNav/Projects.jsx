@@ -29,7 +29,7 @@ const Projects = ({ userId }) => {
 
     const columns = [
         {
-            title: 'Project Name',
+            title: 'Service Name',
             dataIndex: 'name',
             key: 'name',
         },
@@ -69,7 +69,7 @@ const Projects = ({ userId }) => {
 
     return (
         <div style={{ padding: '20px' }}>
-            <Title level={2} className='font-poppins'>Projects</Title>
+            <Title level={2} className='font-poppins'>Services</Title>
             <div className='overflow-x-auto'>
                 {
                     loading ? <Skeleton /> :

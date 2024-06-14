@@ -34,7 +34,7 @@ const UserProfileNav = ({ userId }) => {
                     onClick={handleMenuClick}
                     style={{ height: '100%', borderRight: 0 }}
                 >
-                    <Menu.Item key="project">Project Based Sessions</Menu.Item>
+                    <Menu.Item key="project">Services I Offer</Menu.Item>
                     {/* <Menu.Item key="expertise">Expertise</Menu.Item> */}
                     <Menu.Item key="booking">Upcoming Appointments</Menu.Item>
                 </Menu>
