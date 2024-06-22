@@ -2,6 +2,7 @@ import { Card, Typography } from 'antd';
 import React from 'react';
 import SendTips from './SendTips/SendTips';
 import BookAppointment from './BookAppointment/BookAppointment';
+import FreeAppointment from './BookAppointment/FreeAppointment';
 
 const { Title, Text } = Typography;
 
@@ -13,7 +14,7 @@ const UserNextSteps = () => {
                 <Text className='font-poppins'>Secure your appointment now and start your journey towards success.</Text>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <BookAppointment />
+                <FreeAppointment />
                 <SendTips />
             </div>
         </Card>

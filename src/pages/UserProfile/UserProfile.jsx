@@ -1,7 +1,7 @@
 import { Layout, Row, Col, Avatar, Typography, Divider, Button, Card, Tag, Space } from 'antd';
 import { UserAddOutlined, UserDeleteOutlined, MessageOutlined, CheckCircleOutlined, StopOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import UserNextSteps from './UserNextSteps/UserNextSteps';
 import UserProfileNav from './UserProfileNav/UserProfileNav';
 import UserRecentPosts from './UserRecentPosts/UserRecentPosts';
@@ -50,7 +50,11 @@ const UserProfile = () => {
         return <>Requested Page is not found!</>;
     }
 
-    console.log("Is Friend:", user.isFriend, "Is Sent Request:", isSentRequest, "Is Received Request:", isReceivedRequest, "Visited profile blocked:", isBlocked, "I got blocked", isGotBlocked);
+    // console.log("Is Friend:", user.isFriend, "Is Sent Request:", isSentRequest, "Is Received Request:", isReceivedRequest, "Visited profile blocked:", isBlocked, "I got blocked", isGotBlocked);
+
+    const handleGoToMessages = () => {
+        navigate('/chat')
+    }
 
     return (
         <Layout>
@@ -138,7 +142,7 @@ const UserProfile = () => {
                                                         Block
                                                     </Button>
                                                 )}
-                                                <Button icon={<MessageOutlined />} className="font-poppins">Message</Button>
+                                                <Button icon={<MessageOutlined />} onClick={() => handleGoToMessages()} className="font-poppins">Message</Button>
                                             </>
                                         )}
                                     </Space>

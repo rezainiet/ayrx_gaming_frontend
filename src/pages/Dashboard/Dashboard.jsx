@@ -7,7 +7,7 @@ import CommissionRates from './HourlyRates';
 import BookingManagement from './BookingManagement';
 import MessagingSystem from './ProjectBasedJob';
 import ReviewManagement from './ReviewManagement';
-import TipsManagement from './TipsManagement';
+import AppointmentManagement from './AppointmentManagement';
 
 const { Content } = Layout;
 
@@ -91,18 +91,18 @@ const Dashboard = () => {
                         />
                     </Col>
                 </Row>
-                <Row gutter={[16, 16]} className='flex items-center justify-center'>
+                <Row gutter={[16, 16]} className='flex  justify-center'>
                     <Col span={24}>
                         <BookingManagement />
+                    </Col>
+                    <Col xs={24} sm={24} md={12} lg={12} xl={8}>
+                        <AppointmentManagement />
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={12} xl={8}>
                         <MessagingSystem />
                     </Col>
                     {/* <Col xs={24} sm={24} md={12} lg={12} xl={8}>
                         <ReviewManagement />
-                    </Col>
-                    <Col xs={24} sm={24} md={12} lg={12} xl={8}>
-                        <TipsManagement />
                     </Col> */}
                 </Row>
             </Content>

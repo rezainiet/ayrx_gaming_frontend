@@ -81,7 +81,7 @@ const BookingManagement = () => {
 
     const columns = [
         {
-            title: 'Product',
+            title: 'Services',
             dataIndex: 'product',
             key: 'product',
             render: (text, record) => <a href={record.product.link}>{record.product.name}</a>,
