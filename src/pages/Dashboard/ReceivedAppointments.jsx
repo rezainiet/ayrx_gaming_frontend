@@ -38,6 +38,24 @@ const ReceivedAppointments = () => {
         console.log(response)
 
     }
+    const handleClickDelete = async (id) => {
+        try {
+            axios.defaults.withCredentials = true;
+            const response = await axios.delete(`${import.meta.env.VITE_API_URI}/api/v1/appointment/deleteAppointment/${id}/${authUser?._id}`);
+            console.log(response)
+            if (response.status === 200) {
+                // Provide feedback to the user (e.g., show a success message, update UI)
+                message.success('Appointment deleted successfully.');
+                console.log(response.data);
+            } else {
+                message.error('Failed to delete the appointment.');
+            }
+        } catch (error) {
+            console.error('Error while deleting appointment:', error);
+            message.error('An error occurred while deleting the appointment.');
+        }
+    }
+
     return (
         <div className='my-3 text-start'>
             <List
@@ -48,8 +66,8 @@ const ReceivedAppointments = () => {
                     <Card className='mb-3'>
                         <List.Item>
                             <List.Item.Meta
-                                avatar={<Avatar size={64} src={appointment.seller.profilePhoto} />}
-                                title={<Title level={4}>Appointment with {appointment.seller.fullName}</Title>}
+                                avatar={<Avatar size={64} src={appointment.buyer.profilePhoto} />}
+                                title={<Title level={4} className='font-poppins'>Buyer: {appointment.buyer.fullName}</Title>}
                                 description={
                                     <Space direction="vertical">
                                         <Text strong>Date: {moment(appointment.date).format('MMM D, YYYY (ddd)')}</Text>
@@ -61,6 +79,7 @@ const ReceivedAppointments = () => {
                             <div className='flex items-center justify-center gap-2'>
                                 <Tag color={appointment.status === 'pending' ? 'orange' : 'green'}>{appointment.status}</Tag>
                                 {appointment.status === 'pending' && <Button type="primary" danger onClick={() => handleClickCancel(appointment?._id)}>Cancel</Button>}
+                                {appointment.status === 'cancelled' && <Button type="primary" danger onClick={() => handleClickDelete(appointment?._id)}>Delete</Button>}
                             </div>
                         </List.Item>
                     </Card>

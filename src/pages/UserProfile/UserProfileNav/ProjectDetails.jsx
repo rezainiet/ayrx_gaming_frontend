@@ -9,7 +9,7 @@ import CheckoutForm from './CheckoutForm';
 
 const { Title } = Typography;
 
-const stripePromise = loadStripe('pk_test_51PKmGjDYUg5iGXsDLr9aKfeZx6aGJ7br9MS4t3TiBTmribrZfhe3eRR4dv1p0pbOV64OJ2c5ydU7xW69mwF7kXNr00u4kFdhdP');
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHER_KEY);
 
 const StyledContainer = styled.div`
     padding: 40px;

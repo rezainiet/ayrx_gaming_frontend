@@ -11,7 +11,7 @@ import persistStore from 'redux-persist/es/persistStore';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
-const stripePromise = loadStripe('pk_test_51PKmGjDYUg5iGXsDLr9aKfeZx6aGJ7br9MS4t3TiBTmribrZfhe3eRR4dv1p0pbOV64OJ2c5ydU7xW69mwF7kXNr00u4kFdhdP');
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHER_KEY);
 
 let persistor = persistStore(store);
 
