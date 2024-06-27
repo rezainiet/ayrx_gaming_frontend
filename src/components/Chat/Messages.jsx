@@ -3,6 +3,7 @@ import Message from './Message';
 import useGetMessages from '../../hooks/useGetMessages';
 import { useSelector } from 'react-redux';
 import useGetRealTimeMessage from '../../hooks/useGetRealTimeMessage';
+import { Empty } from 'antd';
 
 const Messages = () => {
     useGetMessages();
@@ -20,6 +21,11 @@ const Messages = () => {
             {messages && messages?.map(message => (
                 <Message key={message?._id} message={message} />
             ))}
+            {
+                !messages && <div className='flex items-center justify-center'>
+                    <Empty description="Send a message to start conversation" image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                </div>
+            }
         </div>
     );
 };
