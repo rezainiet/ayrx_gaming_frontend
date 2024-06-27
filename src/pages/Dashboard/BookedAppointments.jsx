@@ -65,12 +65,12 @@ const BookedAppointments = () => {
                     <Card className='mb-3'>
                         <List.Item>
                             <List.Item.Meta
-                                avatar={<Avatar size={64} src={appointment.seller.profilePhoto} />}
-                                title={<Title level={4}>Appointment with {appointment.seller.fullName}</Title>}
+                                avatar={<Avatar size={64} src={appointment?.seller?.profilePhoto} />}
+                                title={<Title level={4}>Appointment with {appointment?.seller?.fullName}</Title>}
                                 description={
                                     <Space direction="vertical">
-                                        <Text strong>Date: {moment(appointment.date).format('MMM D, YYYY (ddd)')}</Text>
-                                        <Text strong>Time: {moment(appointment.startTime).format('h A')} - {moment(appointment.endTime).format('h A')}</Text>
+                                        <Text strong>Date: {moment(appointment?.date).format('MMM D, YYYY (ddd)')}</Text>
+                                        <Text strong>Time: {moment(appointment?.startTime).format('h A')} - {moment(appointment?.endTime).format('h A')}</Text>
                                         <Text>Notes: {appointment.message}</Text>
                                     </Space>
                                 }

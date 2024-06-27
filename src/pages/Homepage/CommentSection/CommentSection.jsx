@@ -14,9 +14,9 @@ const CommentSection = ({ comments, postId }) => {
             const newComment = {
                 _id: Date.now().toString(), // Temporary ID
                 user: {
-                    _id: authUser._id,
-                    fullName: authUser.fullName,
-                    profilePhoto: authUser.profilePhoto || "https://via.placeholder.com/150"
+                    _id: authUser?._id,
+                    fullName: authUser?.fullName,
+                    profilePhoto: authUser?.profilePhoto || "https://via.placeholder.com/150"
                 },
                 content: commentContent,
                 createdAt: new Date().toISOString()

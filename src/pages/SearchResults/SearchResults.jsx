@@ -116,7 +116,7 @@ const UserSearchResultItem = ({ userId }) => {
                         ]}
                     >
                         <Meta
-                            avatar={<Avatar src={user.profilePhoto} />}
+                            avatar={<Avatar src={user?.profilePhoto} />}
                             title={<a href={`/profile/${user._id}`}>{user.fullName}</a>}
                             description={user.aboutUser}
                         />

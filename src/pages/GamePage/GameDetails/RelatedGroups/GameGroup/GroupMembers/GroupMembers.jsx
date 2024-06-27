@@ -16,7 +16,7 @@ const GroupMembers = ({ group }) => {
                     group && group.members.length > 0 && group.members.slice(0, maxVisibleMembers).map(member => (
                         <div className="avatar" key={member._id}> {/* Ensure a unique key */}
                             <div className="w-12">
-                                <img src={member.profilePhoto || "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"} alt={member.name} /> {/* Use member's profilePhoto if available */}
+                                <img src={member?.profilePhoto || "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"} alt={member.name} /> {/* Use member's profilePhoto if available */}
                             </div>
                         </div>
                     ))

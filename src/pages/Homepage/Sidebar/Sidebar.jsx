@@ -40,7 +40,7 @@ const Sidebar = () => {
                 {randomUsers.map(user => (
                     <div key={user._id} className="flex items-center justify-between mb-4 p-3 transition-transform transform hover:scale-105 rounded-lg bg-gradient-to-r from-purple-400 to-blue-400 shadow-md">
                         <div className="flex items-center">
-                            <Avatar src={user.profilePhoto} size={48} icon={<UserOutlined />} className="mr-3" />
+                            <Avatar src={user?.profilePhoto} size={48} icon={<UserOutlined />} className="mr-3" />
                             <div>
                                 <h4 className="text-lg font-medium text-white">{user.fullName}</h4>
                                 <p className="text-sm text-gray-200">{user.userTitle}</p>

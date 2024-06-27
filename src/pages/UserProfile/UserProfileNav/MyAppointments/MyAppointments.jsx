@@ -62,17 +62,17 @@ const MyAppointments = ({ userId }) => {
                             <Card className="hover:shadow-lg transition-shadow duration-300">
                                 <Row gutter={[16, 16]}>
                                     <Col xs={6} sm={4} md={3}>
-                                        <Avatar size={64} src={appointment.seller.profilePhoto} alt={appointment.seller.fullName} />
+                                        <Avatar size={64} src={appointment?.seller?.profilePhoto} alt={appointment.seller.fullName} />
                                     </Col>
                                     <Col xs={18} sm={20} md={21}>
                                         <div className="flex flex-col justify-between h-full">
                                             <div>
-                                                <h3 className="text-xl font-semibold">{appointment.seller.fullName}</h3>
-                                                <p className="text-gray-500">{moment(appointment.date).format('MMMM Do YYYY')}</p>
+                                                <h3 className="text-xl font-semibold">{appointment?.seller?.fullName}</h3>
+                                                <p className="text-gray-500">{moment(appointment?.date).format('MMMM Do YYYY')}</p>
                                             </div>
                                             <div>
-                                                <p className="text-gray-700">{moment(appointment.startTime).format('hh:mm A')} to {moment(appointment.endTime).format('hh:mm A')}</p>
-                                                <p className="text-gray-600 mt-2"><span className='font-semibold'>Message:</span> {appointment.message}</p>
+                                                <p className="text-gray-700">{moment(appointment?.startTime).format('hh:mm A')} to {moment(appointment?.endTime).format('hh:mm A')}</p>
+                                                <p className="text-gray-600 mt-2"><span className='font-semibold'>Message:</span> {appointment?.message}</p>
                                             </div>
                                         </div>
                                     </Col>

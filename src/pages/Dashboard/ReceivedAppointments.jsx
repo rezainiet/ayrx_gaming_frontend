@@ -66,7 +66,7 @@ const ReceivedAppointments = () => {
                     <Card className='mb-3'>
                         <List.Item>
                             <List.Item.Meta
-                                avatar={<Avatar size={64} src={appointment.buyer.profilePhoto} />}
+                                avatar={<Avatar size={64} src={appointment?.buyer?.profilePhoto} />}
                                 title={<Title level={4} className='font-poppins'>Buyer: {appointment.buyer.fullName}</Title>}
                                 description={
                                     <Space direction="vertical">
