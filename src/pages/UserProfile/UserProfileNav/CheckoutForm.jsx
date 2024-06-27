@@ -24,11 +24,14 @@ const CheckoutForm = ({ project }) => {
     const elements = useElements();
     const [email, setEmail] = useState('');
     const [paymentAddress, setPaymentAddress] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (values) => {
         if (!stripe || !elements) {
             return;
         }
+
+        setLoading(true);
 
         try {
             // Create a payment intent on the server
@@ -69,6 +72,8 @@ const CheckoutForm = ({ project }) => {
                 message: 'Payment Error',
                 description: error.message,
             });
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -84,7 +89,7 @@ const CheckoutForm = ({ project }) => {
                 <CardElement />
             </Form.Item>
             <Form.Item>
-                <Button type="primary" htmlType="submit" disabled={!stripe}>
+                <Button type="primary" htmlType="submit" disabled={!stripe || loading} loading={loading}>
                     Pay ${project.price}
                 </Button>
             </Form.Item>

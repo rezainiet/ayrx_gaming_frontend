@@ -101,7 +101,7 @@ const EarningsOverview = () => {
                 title="Withdraw Funds"
                 visible={isModalVisible}
                 onCancel={handleCancel}
-                footer={null}
+                footer={`Available for withdrawal: $${mainBalance}`}
             >
                 <Form form={form} onFinish={handleWithdraw}>
                     <Form.Item

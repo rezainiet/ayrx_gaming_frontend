@@ -79,6 +79,16 @@ const BookingManagement = () => {
         }
     };
 
+    const calculateFees = (amount) => {
+        const platformFee = amount * 0.10;
+        const paymentProcessingFee = amount * 0.20;
+        return {
+            platformFee,
+            paymentProcessingFee,
+            totalAmount: amount + platformFee + paymentProcessingFee,
+        };
+    };
+
     const columns = [
         {
             title: 'Services',
@@ -90,6 +100,16 @@ const BookingManagement = () => {
             title: 'Amount',
             dataIndex: 'amount',
             key: 'amount',
+            render: (text, record) => {
+                const { platformFee, paymentProcessingFee } = calculateFees(record.amount);
+                return (
+                    <div className=''>
+                        <div>Total Amount: ${record.amount}</div>
+                        {/* <div className=''>Platform Fee: ${platformFee.toFixed(2)}</div> */}
+                        {/* <div>Payment Processing Fee: ${paymentProcessingFee.toFixed(2)}</div> */}
+                    </div>
+                );
+            },
         },
         {
             title: 'Status',
@@ -145,6 +165,7 @@ const BookingManagement = () => {
                     </Button>
                 </Dropdown>
             </div>
+            <div className='py-5'><span className='text-red-500/75'>Note:</span> 10% for platform fees and 20% for payment gateway fees will be deducted.</div>
             <Table
                 columns={columns}
                 dataSource={filteredBookings}
